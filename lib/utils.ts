@@ -17,3 +17,28 @@ export const toSlug = (text: string): string =>
     .replace(/[^\w\s-]+/g, '')
     .replace(/\s+/g, '-')
     .replace(/^-+|-+$/g, '')
+
+const CURRENCY_FORMATTER = new Intl.NumberFormat('en-US', {
+  currency: 'USD',
+  style: 'currency',
+  minimumFractionDigits: 2,
+})
+export function formatCurrency(amount: number) {
+  return CURRENCY_FORMATTER.format(amount)
+}
+// export function formatCurrencyDynamic(
+//   amount: number,
+//   locale: string = 'en-US',
+//   currency: string = 'USD'
+// ) {
+//   return new Intl.NumberFormat(locale, {
+//     style: 'currency',
+//     currency,
+//     minimumFractionDigits: 2,
+//   }).format(amount)
+// }
+
+const NUMBER_FORMATTER = new Intl.NumberFormat('en-US')
+export function formatNumber(number: number) {
+  return NUMBER_FORMATTER.format(number)
+}
