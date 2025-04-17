@@ -1,13 +1,16 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { useCallback } from 'react'
+
+type Product = { id: string; category: string }
 
 type BrowsingHistory = {
-  products: { id: string; category: string }[]
-  addItem: (product: { id: string; category: string }) => void
+  products: Product[]
+  addItem: (product: Product) => void
   clear: () => void
 }
 
-const initialState: Omit<BrowsingHistory, 'addItem' | 'clear'> = {
+const initialState: Pick<BrowsingHistory, 'products'> = {
   products: [],
 }
 
@@ -24,11 +27,23 @@ export const browsingHistoryStore = create<BrowsingHistory>()(
     }),
     {
       name: 'browsingHistoryStore',
+      // optional: chỉ lưu trường products
+      partialize: (state) => ({ products: state.products }),
     }
   )
 )
 
 export default function useBrowsingHistory() {
   const { products, addItem, clear } = browsingHistoryStore()
-  return { products, addItem, clear }
+
+  // memo hóa để dùng trong useEffect không lỗi
+  const stableAddItem = useCallback((product: Product) => {
+    addItem(product)
+  }, [addItem])
+
+  return {
+    products,
+    addItem: stableAddItem,
+    clear,
+  }
 }
