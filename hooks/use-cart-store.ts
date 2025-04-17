@@ -1,7 +1,7 @@
-import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import { Cart, OrderItem } from '@/types'
-import { calcDeliveryDateAndPrice } from '@/lib/actions/order.actions'
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { Cart, OrderItem } from "@/types";
+import { calcDeliveryDateAndPrice } from "@/lib/actions/order.actions";
 
 const initialState: Cart = {
   items: [],
@@ -11,75 +11,85 @@ const initialState: Cart = {
   totalPrice: 0,
   paymentMethod: undefined,
   deliveryDateIndex: undefined,
-}
+};
 
 interface CartState {
-  cart: Cart
-  addItem: (item: OrderItem, quantity: number) => Promise<string>
-  init: () => void
+  cart: Cart;
+  addItem: (item: OrderItem, quantity: number) => Promise<string>;
+  updateItem: (item: OrderItem, quantity: number) => Promise<void>;
+  removeItem: (item: OrderItem) => void;
+  init: () => void;
 }
+
+const matchItem = (a: OrderItem, b: OrderItem) =>
+  a.product === b.product && a.color === b.color && a.size === b.size;
+
+const recalculateCart = async (items: OrderItem[]) => {
+  const priceInfo = await calcDeliveryDateAndPrice({ items });
+  return {
+    ...priceInfo,
+    items,
+  };
+};
 
 const useCartStore = create(
   persist<CartState>(
     (set, get) => ({
       cart: initialState,
 
-      addItem: async (item: OrderItem, quantity: number) => {
-        const { cart } = get()
-        const items = cart.items
+      addItem: async (item, quantity) => {
+        const { cart } = get();
+        const items = cart.items;
 
-        const existItem = items.find(
-          (x) =>
-            x.product === item.product &&
-            x.color === item.color &&
-            x.size === item.size
-        )
-
-        // Kiểm tra tồn kho
+        const existItem = items.find((x) => matchItem(x, item));
         const newQuantity = existItem
           ? existItem.quantity + quantity
-          : quantity
+          : quantity;
 
         if (item.countInStock < newQuantity) {
-          throw new Error('Not enough items in stock')
+          throw new Error("Not enough items in stock");
         }
 
         const updatedItems = existItem
           ? items.map((x) =>
-              x.product === item.product &&
-              x.color === item.color &&
-              x.size === item.size
-                ? { ...x, quantity: newQuantity }
-                : x
+              matchItem(x, item) ? { ...x, quantity: newQuantity } : x
             )
-          : [...items, { ...item, quantity}]
+          : [...items, { ...item, quantity }];
 
-        const priceInfo = await calcDeliveryDateAndPrice({ items: updatedItems })
+        const updatedCart = await recalculateCart(updatedItems);
 
-        set({
-          cart: {
-            ...cart,
-            items: updatedItems,
-            ...priceInfo,
-          },
-        })
+        set({ cart: { ...cart, ...updatedCart } });
 
-        const addedItem = updatedItems.find(
-          (x) =>
-            x.product === item.product &&
-            x.color === item.color &&
-            x.size === item.size
-        )
+        const added = updatedItems.find((x) => matchItem(x, item));
+        return added?.cartItemId ?? "";
+      },
 
-        return addedItem?.cartItemId ?? ''
+      updateItem: async (item, quantity) => {
+        const items = get().cart.items;
+        const exist = items.find((x) => matchItem(x, item));
+        if (!exist) return;
+
+        const updatedItems = items.map((x) =>
+          matchItem(x, item) ? { ...x, quantity } : x
+        );
+
+        const updatedCart = await recalculateCart(updatedItems);
+        set({ cart: { ...get().cart, ...updatedCart } });
+      },
+
+      removeItem: async (item) => {
+        const items = get().cart.items;
+        const updatedItems = items.filter((x) => !matchItem(x, item));
+        const updatedCart = await recalculateCart(updatedItems);
+        set({ cart: { ...get().cart, ...updatedCart } });
       },
 
       init: () => set({ cart: initialState }),
     }),
     {
-      name: 'cart-store',
+      name: "cart-store",
     }
   )
-)
+);
 
-export default useCartStore
+export default useCartStore;
