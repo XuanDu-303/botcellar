@@ -6,9 +6,9 @@ import {
 } from "@/lib/actions/product.actions";
 
 import { generateId, round2 } from "@/lib/utils";
-import SelectVariant from "@/components/shared/product/select-variant";
+import SelectVariant from "./_components/select-variant";
+import ProductGallery from "./_components/product-gallery";
 import ProductPrice from "@/components/shared/product/product-price";
-import ProductGallery from "@/components/shared/product/product-gallery";
 import AddToBrowsingHistory from "@/components/shared/product/add-to-browsing-history";
 import { Separator } from "@/components/ui/separator";
 import BrowsingHistoryList from "@/components/shared/browsing-history-list";

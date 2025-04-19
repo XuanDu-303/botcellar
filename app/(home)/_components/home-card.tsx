@@ -2,17 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
-
-type CardItem = {
-  title: string
-  link: { text: string; href: string }
-  items: {
-    name: string
-    items?: string[]
-    image: string
-    href: string
-  }[]
-}
+import { CardItem } from '@/types'
 
 export function HomeCard({ cards }: { cards: CardItem[] }) {
   return (

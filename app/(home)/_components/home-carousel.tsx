@@ -11,16 +11,14 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
-export function HomeCarousel({
+export default function HomeCarousel({
   items,
 }: {
   items: {
     image: string;
     url: string;
     title: string;
-    buttonCaption: string;
   }[];
 }) {
   const plugin = React.useRef(
@@ -31,7 +29,8 @@ export function HomeCarousel({
     <Carousel
       dir="ltr"
       plugins={[plugin.current]}
-      className="w-full mx-auto "
+      opts={{ loop: true }}
+      className="w-full mx-auto"
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
     >
@@ -51,17 +50,15 @@ export function HomeCarousel({
                   <h2 className="text-xl md:text-6xl font-bold mb-4 text-primary">
                     {item.title}
                   </h2>
-                  <Button className="hidden md:block">
-                    {item.buttonCaption}
-                  </Button>
                 </div>
               </div>
             </Link>
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="left-0 md:left-12 p-2" />
-      <CarouselNext className="right-0 md:right-12 p-2" />
+      <CarouselPrevious variant={null} className="hover:border cursor-pointer left-0 md:left-3 h-2/3 w-20"/>
+      <CarouselNext variant={null} className="hover:border cursor-pointer right-0 md:right-3 h-2/3 w-20" />
+
     </Carousel>
   );
 }
