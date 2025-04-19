@@ -57,12 +57,18 @@ export default function HomePageClient({
 }) {
   return (
     <>
-      <HomeCarousel items={carouselItems} />
+      <div className="relative">
+        <HomeCarousel items={carouselItems} />
+
+        <div className="absolute inset-x-0 bottom-5 translate-y-1/2 z-10">
+          <div className="md:px-4 md:space-y-4">
+            <HomeCard cards={cards} />
+          </div>
+        </div>
+      </div>
 
       <div className="md:p-4 md:space-y-4 bg-border">
-        <HomeCard cards={cards} />
-
-        <Card className="w-full rounded-none">
+        <Card className="w-full mt-52 rounded-none">
           <CardContent className="p-4 items-center gap-3">
             <ProductSlider title={"Today's Deals"} products={todaysDeals} />
           </CardContent>

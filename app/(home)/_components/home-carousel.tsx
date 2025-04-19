@@ -46,7 +46,11 @@ export default function HomeCarousel({
                   className="object-cover"
                   priority
                 />
-                <div className="absolute w-1/3 left-16 md:left-32 top-1/2 transform -translate-y-1/2">
+
+                {/* Gradient overlay */}
+                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-transparent to-border pointer-events-none z-[1]" />
+
+                <div className="absolute w-1/3 left-16 md:left-32 top-1/2 transform -translate-y-1/2 z-[2]">
                   <h2 className="text-xl md:text-6xl font-bold mb-4 text-primary">
                     {item.title}
                   </h2>
@@ -56,9 +60,14 @@ export default function HomeCarousel({
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious variant={null} className="hover:border cursor-pointer left-0 md:left-3 h-2/3 w-20"/>
-      <CarouselNext variant={null} className="hover:border cursor-pointer right-0 md:right-3 h-2/3 w-20" />
-
+      <CarouselPrevious
+        variant={null}
+        className="absolute left-0 md:left-3 top-1/4 -translate-y-1/2 h-1/3 w-20 z-10 hover:border-2 cursor-pointer"
+      />
+      <CarouselNext
+        variant={null}
+        className="absolute right-0 md:right-3 top-1/4 -translate-y-1/2 h-1/3 w-20 z-10 hover:border-2 cursor-pointer"
+      />
     </Carousel>
   );
 }
