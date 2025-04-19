@@ -57,7 +57,7 @@ export default async function UserButton() {
             <DropdownMenuItem className='p-0 mb-1'>
               <form action={SignOut} className='w-full'>
                 <Button
-                  className='w-full py-4 px-2 h-4 justify-start'
+                  className='w-full py-4 px-2 h-4 justify-start cursor-pointer'
                   variant='ghost'
                 >
                   Sign out

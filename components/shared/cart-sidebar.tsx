@@ -90,6 +90,7 @@ export default function CartSidebar() {
                       </SelectContent>
                     </Select>
                     <Button
+                      className='cursor-pointer'
                       variant={'outline'}
                       size={'sm'}
                       onClick={() => {

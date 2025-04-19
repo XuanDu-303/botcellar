@@ -105,6 +105,7 @@ export default function CartPage() {
                             </SelectContent>
                           </Select>
                           <Button
+                            className='cursor-pointer'
                             variant={'outline'}
                             onClick={() => removeItem(item)}
                           >
@@ -176,7 +177,7 @@ export default function CartPage() {
                   </div>
                   <Button
                     onClick={() => router.push('/checkout')}
-                    className='rounded-full w-full'
+                    className='rounded-full w-full cursor-pointer'
                   >
                     Proceed to Checkout
                   </Button>
