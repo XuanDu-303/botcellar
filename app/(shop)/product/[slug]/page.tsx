@@ -20,7 +20,7 @@ export async function generateMetadata(props: {
   const params = await props.params;
   const product = await getProductBySlug(params.slug);
   if (!product) {
-    return { title: "Product.Product not found" };
+    return { title: "Product not found" };
   }
   return {
     title: product.name,
@@ -60,7 +60,7 @@ export default async function ProductDetails(props: {
           <div className="flex w-full flex-col gap-2 md:p-5 col-span-2">
             <div className="flex flex-col gap-3">
               <p className="p-medium-16 rounded-full bg-grey-500/10   text-grey-500">
-                Product.Brand {product.brand} {product.category}
+                Brand {product.brand} {product.category}
               </p>
               <h1 className="font-bold text-lg lg:text-xl">{product.name}</h1>
 
@@ -85,7 +85,7 @@ export default async function ProductDetails(props: {
             </div>
             <Separator className="my-2" />
             <div className="flex flex-col gap-2">
-              <p className="p-bold-20 text-grey-600">Product.Description</p>
+              <p className="p-bold-20 text-grey-600">Description</p>
               <p className="p-medium-16 lg:p-regular-18">
                 {product.description}
               </p>
@@ -98,14 +98,14 @@ export default async function ProductDetails(props: {
 
                 {product.countInStock > 0 && product.countInStock <= 3 && (
                   <div className="text-destructive font-bold">
-                    Product.Only X left in stock - order soon
+                    Only X left in stock - order soon
                   </div>
                 )}
                 {product.countInStock !== 0 ? (
-                  <div className="text-green-700 text-xl">Product.In Stock</div>
+                  <div className="text-green-700 text-xl">In Stock</div>
                 ) : (
                   <div className="text-destructive text-xl">
-                    Product.Out of Stock
+                    Out of Stock
                   </div>
                 )}
 
@@ -135,13 +135,13 @@ export default async function ProductDetails(props: {
       </section>
       <section className="mt-10">
         <h2 className="h2-bold mb-2" id="reviews">
-          Product.Customer Reviews
+          Customer Reviews
         </h2>
       </section>
       <section className="mt-10">
         <ProductSlider
           products={relatedProducts.data}
-          title="Product.Best Sellers in"
+          title="Best Sellers in"
         />
       </section>
       <section>

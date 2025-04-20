@@ -66,10 +66,10 @@ export default function AddToCart({
         value={quantity.toString()}
         onValueChange={(i) => setQuantity(Number(i))}
       >
-        <SelectTrigger>
+        <SelectTrigger className="w-full">
           <SelectValue>Quantity: {quantity}</SelectValue>
         </SelectTrigger>
-        <SelectContent position="popper">
+        <SelectContent position="popper" className="w-full">
           {Array.from({ length: item.countInStock }).map((_, i) => (
             <SelectItem key={i + 1} value={`${i + 1}`}>
               {i + 1}

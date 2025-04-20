@@ -2,9 +2,22 @@
 
 import React, { useEffect, useState, useMemo } from 'react'
 import useBrowsingHistory from '@/hooks/use-browsing-history'
-import ProductSlider from './product/product-slider'
 import { Separator } from '../ui/separator'
 import { cn } from '@/lib/utils'
+
+import dynamic from 'next/dynamic'
+
+const ProductSlider = dynamic(
+  () => import('./product/product-slider'),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center">
+        <div className="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600" />
+      </div>
+    ),
+  }
+)
 
 export default function BrowsingHistoryList({ className }: { className?: string }) {
   const { products } = useBrowsingHistory()
