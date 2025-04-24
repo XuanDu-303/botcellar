@@ -157,7 +157,7 @@ const CheckoutForm = () => {
         {!isAddressSelected && (
           <div className="border-b mb-4">
             <Button
-              className="rounded-full w-full"
+              className="rounded-full w-full cursor-pointer"
               onClick={handleSelectShippingAddress}
             >
               Ship to this address
@@ -171,7 +171,7 @@ const CheckoutForm = () => {
         {isAddressSelected && !isPaymentMethodSelected && (
           <div className=" mb-4">
             <Button
-              className="rounded-full w-full"
+              className="rounded-full w-full cursor-pointer"
               onClick={handleSelectPaymentMethod}
             >
               Use this payment method
@@ -261,6 +261,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-span-2">
                   <Button
+                    className="cursor-pointer"
                     variant={"outline"}
                     onClick={() => {
                       setIsAddressSelected(false);
@@ -413,7 +414,7 @@ const CheckoutForm = () => {
                       <CardFooter className="  p-4">
                         <Button
                           type="submit"
-                          className="rounded-full font-bold"
+                          className="rounded-full font-bold cursor-pointer"
                         >
                           Ship to this address
                         </Button>
@@ -437,6 +438,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-span-2">
                   <Button
+                    className="cursor-pointer"
                     variant="outline"
                     onClick={() => {
                       setIsPaymentMethodSelected(false);
@@ -478,7 +480,7 @@ const CheckoutForm = () => {
                   <CardFooter className="p-4">
                     <Button
                       onClick={handleSelectPaymentMethod}
-                      className="rounded-full font-bold"
+                      className="rounded-full font-bold cursor-pointer"
                     >
                       Use this payment method
                     </Button>
@@ -522,6 +524,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-span-2">
                   <Button
+                    className="cursor-pointer"
                     variant={"outline"}
                     onClick={() => {
                       setIsPaymentMethodSelected(true);

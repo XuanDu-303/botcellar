@@ -9,6 +9,7 @@ import Image from "next/image";
 import { TrashIcon } from "lucide-react";
 import ProductPrice from "./product/product-price";
 import { FREE_SHIPPING_MIN_PRICE } from "@/lib/constants";
+import Loading from "./loading";
 
 export default function CartSidebar() {
   const {
@@ -18,12 +19,12 @@ export default function CartSidebar() {
     removeItem,
   } = useCartStore();
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 1000) // giả lập delay
-    return () => clearTimeout(timeout)
-  }, [])
+    const timeout = setTimeout(() => setLoading(false), 1000); // giả lập delay
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
     <div className="min-w-36 overflow-y-auto">
@@ -97,8 +98,8 @@ export default function CartSidebar() {
                         </Button>
                       )}
 
-                      <span className="w-6 text-center text-sm font-medium">
-                        {isLoading ? "--" : item.quantity}
+                      <span className="w-6 flex justify-center items-center text-sm font-medium">
+                        {isLoading ? <Loading/> : item.quantity}
                       </span>
 
                       <Button
@@ -126,7 +127,7 @@ export default function CartSidebar() {
 
 function CartItemSkeleton() {
   return (
-    <div className="animate-pulse space-y-4 p-2">
+    <div className="animate-pulse space-y-2 p-2">
       <div className="relative h-24 w-full rounded bg-gray-200" />
       <div className="h-4 w-1/2 mx-auto bg-gray-200 rounded" />
       <div className="flex justify-center gap-2">
