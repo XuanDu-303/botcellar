@@ -17,11 +17,11 @@ export interface IUser extends Document, IUserInput {
 const userSchema = new Schema<IUser>(
   {
     email: { type: String, required: true, unique: true },
-    name: { type: String, required: true },
-    role: { type: String, required: true, default: "User" },
+    name: { type: String, required: false },
+    role: { type: String, default: "User" },
     password: { type: String },
     image: { type: String },
-    emailVerified: { type: Boolean, default: false },
+    emailVerified: { type: Date, default: null },
   },
   {
     timestamps: true,
