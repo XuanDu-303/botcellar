@@ -38,12 +38,12 @@ export default function Header() {
       <div className="flex items-center px-3 mb-[1px] bg-gray-800">
         <Button
           variant="ghost"
-          className="header-button flex items-center gap-1 text-base [&_svg]:size-6 cussor-pointer"
+          className="header-button flex items-center gap-1 font-semibold text-sm [&_svg]:size-6 cussor-pointer"
         > 
           <MenuIcon />
           All
         </Button>
-        <div className="flex items-center flex-wrap gap-3 overflow-hidden max-h-[42px]">
+        <div className="flex items-center text-sm flex-wrap gap-3 overflow-hidden max-h-[42px]">
           {data.headerMenus.map((menu) => (
             <Link
               href={menu.href}

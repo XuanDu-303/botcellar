@@ -30,7 +30,7 @@ export default function Rating({
             className='absolute top-0 left-0 overflow-hidden'
             style={{ width: `${partialStar * 100}%` }}
           >
-            <Star className='w-6 h-6 fill-primary text-primary' />
+            <Star className={`w-${size} h-${size} fill-primary text-primary`} />
           </div>
         </div>
       )}

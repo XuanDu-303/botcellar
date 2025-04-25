@@ -13,6 +13,9 @@ import AddToBrowsingHistory from "@/components/shared/product/add-to-browsing-hi
 import { Separator } from "@/components/ui/separator";
 import BrowsingHistoryList from "@/components/shared/browsing-history-list";
 import ProductSlider from "@/components/shared/product/product-slider";
+import RatingSummary from "./_components/rating-summary";
+import ReviewList from "./_components/review-list";
+import { auth } from "@/lib/auth";
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
@@ -48,6 +51,7 @@ export default async function ProductDetails(props: {
     page: Number(page || "1"),
   });
 
+  const session = await auth();
   return (
     <div>
       <AddToBrowsingHistory product={product} />
@@ -63,7 +67,14 @@ export default async function ProductDetails(props: {
                 Brand {product.brand} {product.category}
               </p>
               <h1 className="font-bold text-lg lg:text-xl">{product.name}</h1>
-
+              <div className="flex items-center gap-2">
+                <RatingSummary
+                  avgRating={product.avgRating}
+                  numReviews={product.numReviews}
+                  asTooltip
+                  ratingDistribution={product.ratingDistribution}
+                />
+              </div>
               <Separator />
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <div className="flex gap-3">
@@ -104,9 +115,7 @@ export default async function ProductDetails(props: {
                 {product.countInStock !== 0 ? (
                   <div className="text-green-700 text-xl">In Stock</div>
                 ) : (
-                  <div className="text-destructive text-xl">
-                    Out of Stock
-                  </div>
+                  <div className="text-destructive text-xl">Out of Stock</div>
                 )}
 
                 {product.countInStock !== 0 && (
@@ -137,6 +146,7 @@ export default async function ProductDetails(props: {
         <h2 className="h2-bold mb-2" id="reviews">
           Customer Reviews
         </h2>
+        <ReviewList product={product} userId={session?.user.id} />
       </section>
       <section className="mt-10">
         <ProductSlider

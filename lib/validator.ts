@@ -9,8 +9,25 @@ const Price = (field: string) =>
       (value) => /^\d+(\.\d{2})?$/.test(formatNumberWithDecimal(value)),
       `${field} must have exactly two decimal places (e.g., 49.99)`
     );
-// .transform((val) => parseFloat(formatNumberWithDecimal(val)))
 
+const MongoId = z
+  .string()
+  .regex(/^[0-9a-fA-F]{24}$/, { message: "Invalid MongoDB ID" });
+
+export const ReviewInputSchema = z.object({
+  product: MongoId,
+  user: MongoId,
+  isVerifiedPurchase: z.boolean(),
+  title: z.string().min(1, "Title is required"),
+  comment: z.string().min(1, "Comment is required"),
+  rating: z.coerce
+    .number()
+    .int()
+    .min(1, "Rating must be at least 1")
+    .max(5, "Rating must be at most 5"),
+});
+
+// Product
 export const ProductInputSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
   slug: z.string().min(3, "Slug must be at least 3 characters"),
@@ -39,7 +56,7 @@ export const ProductInputSchema = z.object({
   ratingDistribution: z
     .array(z.object({ rating: z.number(), count: z.number() }))
     .max(5),
-  reviews: z.array(z.string()).default([]),
+  reviews: z.array(ReviewInputSchema).default([]),
   numSales: z.coerce // autotimatically convert string to number
     .number()
     .int()
@@ -70,14 +87,14 @@ export const OrderItemSchema = z.object({
 });
 
 export const ShippingAddressSchema = z.object({
-  fullName: z.string().min(1, 'Full name is required'),
-  street: z.string().min(1, 'Address is required'),
-  city: z.string().min(1, 'City is required'),
-  postalCode: z.string().min(1, 'Postal code is required'),
-  province: z.string().min(1, 'Province is required'),
-  phone: z.string().min(1, 'Phone number is required'),
-  country: z.string().min(1, 'Country is required'),
-})
+  fullName: z.string().min(1, "Full name is required"),
+  street: z.string().min(1, "Address is required"),
+  city: z.string().min(1, "City is required"),
+  postalCode: z.string().min(1, "Postal code is required"),
+  province: z.string().min(1, "Province is required"),
+  phone: z.string().min(1, "Phone number is required"),
+  country: z.string().min(1, "Country is required"),
+});
 
 export const CartSchema = z.object({
   items: z
@@ -96,47 +113,43 @@ export const CartSchema = z.object({
 // USER
 const UserName = z
   .string()
-  .min(2, { message: 'Username must be at least 2 characters' })
-  .max(50, { message: 'Username must be at most 30 characters' })
-const Email = z.string().min(1, 'Email is required').email('Email is invalid')
-const Password = z.string().min(3, 'Password must be at least 3 characters')
-const UserRole = z.string().min(1, 'role is required')
+  .min(2, { message: "Username must be at least 2 characters" })
+  .max(50, { message: "Username must be at most 30 characters" });
+const Email = z.string().min(1, "Email is required").email("Email is invalid");
+const Password = z.string().min(3, "Password must be at least 3 characters");
+const UserRole = z.string().min(1, "role is required");
 
 export const UserInputSchema = z.object({
   name: UserName,
   email: Email,
   image: z.string().optional(),
-  emailVerified: z.boolean(),
+  emailVerified: z.union([z.date(), z.null()]).optional(),
   role: UserRole,
   password: Password,
-  paymentMethod: z.string().min(1, 'Payment method is required'),
+  paymentMethod: z.string().min(1, "Payment method is required"),
   address: z.object({
-    fullName: z.string().min(1, 'Full name is required'),
-    street: z.string().min(1, 'Street is required'),
-    city: z.string().min(1, 'City is required'),
-    province: z.string().min(1, 'Province is required'),
-    postalCode: z.string().min(1, 'Postal code is required'),
-    country: z.string().min(1, 'Country is required'),
-    phone: z.string().min(1, 'Phone number is required'),
+    fullName: z.string().min(1, "Full name is required"),
+    street: z.string().min(1, "Street is required"),
+    city: z.string().min(1, "City is required"),
+    province: z.string().min(1, "Province is required"),
+    postalCode: z.string().min(1, "Postal code is required"),
+    country: z.string().min(1, "Country is required"),
+    phone: z.string().min(1, "Phone number is required"),
   }),
-})
+});
 
 export const UserSignInSchema = z.object({
   email: Email,
   password: Password,
-})
+});
 
 export const UserSignUpSchema = UserSignInSchema.extend({
   name: UserName,
   confirmPassword: Password,
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
-  path: ['confirmPassword'],
-})
-
-const MongoId = z
-  .string()
-  .regex(/^[0-9a-fA-F]{24}$/, { message: 'Invalid MongoDB ID' })
+  path: ["confirmPassword"],
+});
 
 // Order
 export const OrderInputSchema = z.object({
@@ -149,9 +162,9 @@ export const OrderInputSchema = z.object({
   ]),
   items: z
     .array(OrderItemSchema)
-    .min(1, 'Order must contain at least one item'),
+    .min(1, "Order must contain at least one item"),
   shippingAddress: ShippingAddressSchema,
-  paymentMethod: z.string().min(1, 'Payment method is required'),
+  paymentMethod: z.string().min(1, "Payment method is required"),
   paymentResult: z
     .object({
       id: z.string(),
@@ -160,18 +173,18 @@ export const OrderInputSchema = z.object({
       pricePaid: z.string(),
     })
     .optional(),
-  itemsPrice: Price('Items price'),
-  shippingPrice: Price('Shipping price'),
-  taxPrice: Price('Tax price'),
-  totalPrice: Price('Total price'),
+  itemsPrice: Price("Items price"),
+  shippingPrice: Price("Shipping price"),
+  taxPrice: Price("Tax price"),
+  totalPrice: Price("Total price"),
   expectedDeliveryDate: z
     .date()
     .refine(
       (value) => value > new Date(),
-      'Expected delivery date must be in the future'
+      "Expected delivery date must be in the future"
     ),
   isDelivered: z.boolean().default(false),
   deliveredAt: z.date().optional(),
   isPaid: z.boolean().default(false),
   paidAt: z.date().optional(),
-})
+});

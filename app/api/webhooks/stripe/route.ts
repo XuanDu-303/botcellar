@@ -7,14 +7,25 @@ import Order from '@/lib/db/models/order.model'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
 
 export async function POST(req: NextRequest) {
-  const event = await stripe.webhooks.constructEvent(
-    await req.text(),
-    req.headers.get('stripe-signature') as string,
-    process.env.STRIPE_WEBHOOK_SECRET as string
-  )
+  const rawBody = await req.text()
+  const sig = req.headers.get('stripe-signature') as string
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!
+  let event
 
+  try {
+    event = stripe.webhooks.constructEvent(
+      rawBody,
+      sig,
+      endpointSecret
+    )
+  } catch (err) {
+    console.error('Webhook Error:', err)
+    return new NextResponse(`Webhook Error: ${err}`, { status: 400 })
+  }
+  console.log('event.type', event.type)
   if (event.type === 'charge.succeeded') {
     const charge = event.data.object
+    console.log('✅ charge.succeeded:', charge.id)
     const orderId = charge.metadata.orderId
     const email = charge.billing_details.email
     const pricePaidInCents = charge.amount
