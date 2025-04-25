@@ -7,8 +7,8 @@ import Order from '@/lib/db/models/order.model'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
 
 export async function POST(req: NextRequest) {
-  const rawBody = await req.text()
   const sig = req.headers.get('stripe-signature') as string
+  const rawBody = await req.text()
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!
   let event
 
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     event = stripe.webhooks.constructEvent(
       rawBody,
       sig,
-      endpointSecret
+      endpointSecret  
     )
   } catch (err) {
     console.error('Webhook Error:', err)
