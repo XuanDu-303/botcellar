@@ -77,7 +77,7 @@ export default function RatingSummary({
               <ChevronDownIcon className="w-5 h-5 text-muted-foreground" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="top" align="center" className="w-auto px-4 pt-4 pb-3 bg-white border shadow-md rounded-lg">
+          <TooltipContent side="top" align="center" className="w-auto px-4 pt-4 pb-3 bg-white outline shadow-lg rounded-lg">
             <div className="flex flex-col gap-2">
               <RatingDistribution />
               <Separator />
