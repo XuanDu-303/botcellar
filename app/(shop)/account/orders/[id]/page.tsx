@@ -34,11 +34,11 @@ export default async function OrderDetailsPage(props: {
   return (
     <>
       <div className='flex gap-2'>
-        <Link href='/account'>Your Account</Link>
+        <Link href='/account' className='text-blue-600'>Your Account</Link>
         <span>›</span>
-        <Link href='/account/orders'>Your Orders</Link>
+        <Link href='/account/orders'className='text-blue-600'>Your Orders</Link>
         <span>›</span>
-        <span>Order {formatId(order._id)}</span>
+        <span className='text-primary'>Order {formatId(order._id)}</span>
       </div>
       <h1 className='h1-bold py-4'>Order {formatId(order._id)}</h1>
       <OrderDetailsForm

@@ -49,8 +49,8 @@ export default function ProductSlider({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="shadow-xl cursor-pointer left-0 h-1/2 w-12" />
-        <CarouselNext className="shadow-xl cursor-pointer right-0 h-1/2 w-12" />
+        <CarouselPrevious className="shadow-xl cursor-pointer left-0 h-12 w-12 rounded-[10px]" />
+        <CarouselNext className="shadow-xl cursor-pointer right-0 h-12 w-12 rounded-[10px]" />
       </Carousel>
     </div>
   );

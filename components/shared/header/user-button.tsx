@@ -70,7 +70,7 @@ export default async function UserButton() {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <Link
-                  className={cn(buttonVariants(), 'w-full')}
+                  className={cn(buttonVariants(), 'w-full cursor-pointer')}
                   href='/sign-in'
                 >
                   Sign in
@@ -79,7 +79,7 @@ export default async function UserButton() {
             </DropdownMenuGroup>
             <DropdownMenuLabel>
               <div className='font-normal'>
-                New Customer? <Link href='/sign-up'>Sign up</Link>
+                New Customer? <Link href='/sign-up' className='cursor-pointer'>Sign up</Link>
               </div>
             </DropdownMenuLabel>
           </DropdownMenuContent>
