@@ -49,7 +49,7 @@ import {
   getReviews,
 } from "@/lib/actions/review.actions";
 import { ReviewInputSchema } from "@/lib/validator";
-import RatingSummary from "./rating-summary";
+import RatingSummary from "@/components/shared/product/rating-summary";
 import { IProduct } from "@/lib/db/models/product.model";
 import { Separator } from "@/components/ui/separator";
 import { IReviewDetails } from "@/types";
