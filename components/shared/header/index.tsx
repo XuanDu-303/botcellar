@@ -39,11 +39,11 @@ export default async function Header() {
           <Search />
         </div>
       </div>
-      <div className="flex items-center px-3 mb-[1px] bg-gray-800">
+      <div className="flex px-3 bg-gray-800">
         <Sidebar categories={categories} session={session}/>
-        <div className="flex items-center text-sm flex-wrap gap-3 overflow-hidden max-h-[42px]">
+        <div className="flex items-center text-sm flex-wrap gap-3 overflow-hidden">
           {data.headerMenus.map((menu) => (
-            <Link href={menu.href} key={menu.href} className="header-button">
+            <Link href={menu.href} key={menu.href} className="header-button !py-[10px]">
               {menu.name}
             </Link>
           ))}

@@ -91,6 +91,24 @@ const productSchema = new Schema<IProduct>(
   }
 );
 
+// productSchema.index(
+//   {
+//     name: "text",
+//     description: "text",
+//     tags: "text",
+//     brand: "text",
+//   },
+//   {
+//     weights: {
+//       name: 10,
+//       brand: 6,
+//       tags: 4,
+//       description: 2,
+//     },
+//     name: "ProductTextIndex",
+//   }
+// );
+
 const Product =
   (models.Product as Model<IProduct>) ||
   model<IProduct>("Product", productSchema);

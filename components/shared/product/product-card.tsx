@@ -1,30 +1,32 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { IProduct } from '@/lib/db/models/product.model'
-import ImageHover from './image-hover'
+import { IProduct } from "@/lib/db/models/product.model";
+import ImageHover from "./image-hover";
 
-import Rating from './rating'
-import { formatNumber, generateId, round2 } from '@/lib/utils'
-import ProductPrice from './product-price'
-import AddToCart from './add-to-cart'
+import Rating from "./rating";
+import { formatNumber, generateId, round2 } from "@/lib/utils";
+import ProductPrice from "./product-price";
+import AddToCart from "./add-to-cart";
+import RatingSummary from "./rating-summary";
 
 const ProductCard = ({
   product,
   hideBorder = false,
   hideDetails = false,
   hideAddToCart = false,
+  hideDiscount = false,
 }: {
-  product: IProduct
-  hideDetails?: boolean
-  hideBorder?: boolean
-  hideAddToCart?: boolean
+  product: IProduct;
+  hideDetails?: boolean;
+  hideBorder?: boolean;
+  hideAddToCart?: boolean;
+  hideDiscount?: boolean;
 }) => {
   const ProductImage = () => (
     <Link href={`/product/${product.slug}`}>
-      <div className='relative h-52'>
+      <div className="relative p-3 border-b">
         {product.images.length > 1 ? (
           <ImageHover
             src={product.images[0]}
@@ -32,49 +34,61 @@ const ProductCard = ({
             alt={product.name}
           />
         ) : (
-          <div className='relative h-52'>
+          <div className="relative p-3">
             <Image
               src={product.images[0]}
               alt={product.name}
               fill
-              sizes='80vw'
-              className='object-contain'
+              sizes="80vw"
+              className="object-contain"
             />
           </div>
         )}
       </div>
     </Link>
-  )
+  );
   const ProductDetails = () => (
-    <div className='flex-1 space-y-2'>
-      <p className='font-bold'>{product.brand}</p>
+    <div className="flex-1 space-y-2">
+      <p className="font-bold">{product.brand}</p>
       <Link
         href={`/product/${product.slug}`}
-        className='overflow-hidden text-ellipsis'
+        className="overflow-hidden text-ellipsis"
         style={{
-          display: '-webkit-box',
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical',
+          display: "-webkit-box",
+          WebkitLineClamp: 3,
+          WebkitBoxOrient: "vertical",
         }}
       >
         {product.name}
       </Link>
-      <div className='flex gap-2 justify-center'>
-        <Rating rating={product.avgRating} />
-        <span>({formatNumber(product.numReviews)})</span>
+      <div className="flex gap-2">
+        {hideBorder ? (
+          <>
+            <Rating rating={product.avgRating} />
+            <span>({formatNumber(product.numReviews)})</span>
+          </>
+        ) : (
+          <RatingSummary
+            avgRating={product.avgRating}
+            numReviews={product.numReviews}
+            asTooltip
+            ratingDistribution={product.ratingDistribution}
+          />
+        )}
       </div>
 
       <ProductPrice
-        isDeal={product.tags.includes('todays-deal')}
+        isDeal={product.tags.includes("todays-deal")}
         price={product.price}
         listPrice={product.listPrice}
         forListing
+        hideDiscount={hideDiscount}
       />
     </div>
-  )
+  );
 
   const AddButton = () => (
-    <div className='w-full text-center'>
+    <div className="w-full">
       <AddToCart
         minimal
         item={{
@@ -92,14 +106,14 @@ const ProductCard = ({
         }}
       />
     </div>
-  )
-  
+  );
+
   return hideBorder ? (
-    <div className='flex flex-col'>
+    <div className="flex flex-col">
       <ProductImage />
       {!hideDetails && (
         <>
-          <div className='p-3 flex-1 text-center'>
+          <div className="p-3 border flex-1">
             <ProductDetails />
           </div>
           {!hideAddToCart && <AddButton />}
@@ -107,22 +121,16 @@ const ProductCard = ({
       )}
     </div>
   ) : (
-    <Card className='flex flex-col'>
-      <CardHeader className='p-3'>
-        <ProductImage />
-      </CardHeader>
+    <div className="flex flex-col border rounded-md py-3 shadow-lg gap-1">
+      <ProductImage />
       {!hideDetails && (
-        <>
-          <CardContent className='p-3 flex-1  text-center'>
-            <ProductDetails />
-          </CardContent>
-          <CardFooter className='p-3'>
-            {!hideAddToCart && <AddButton />}
-          </CardFooter>
-        </>
+        <div className="h-full p-3 flex flex-col justify-between">
+          <ProductDetails />
+          <div className="pt-2">{!hideAddToCart && <AddButton />}</div>
+        </div>
       )}
-    </Card>
-  )
-}
+    </div>
+  );
+};
 
-export default ProductCard
+export default ProductCard;

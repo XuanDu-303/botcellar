@@ -9,7 +9,6 @@ import {
   TooltipContent,
   TooltipProvider,
 } from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
 import { ChevronDownIcon } from "lucide-react";
 import Rating from "@/components/shared/product/rating";
 
@@ -68,14 +67,13 @@ export default function RatingSummary({
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              className="flex gap-1 [&_svg]:size-3 text-base"
+            <div
+              className="flex items-center gap-1 text-base"
             >
               <span>{avgRating.toFixed(1)}</span>
-              <Rating rating={avgRating} />
+              <Rating rating={avgRating} size={4} />
               <ChevronDownIcon className="w-5 h-5 text-muted-foreground" />
-            </Button>
+            </div>
           </TooltipTrigger>
           <TooltipContent side="top" align="center" className="w-auto px-4 pt-4 pb-3 bg-white outline shadow-lg rounded-lg">
             <div className="flex flex-col gap-2">

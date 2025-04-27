@@ -26,7 +26,7 @@ export default function Sidebar({
   const [open, setOpen] = useState(false);
   return (
     <Drawer direction="left" open={open} onOpenChange={setOpen}>
-      <DrawerTrigger className="header-button flex items-center !p-2  ">
+      <DrawerTrigger className="header-button flex items-center !p-2">
         <MenuIcon className="h-5 w-5 mr-1" />
         All
       </DrawerTrigger>
@@ -74,10 +74,10 @@ export default function Sidebar({
                 <DrawerClose asChild key={category}>
                   <Link
                     href={`/search?category=${category}`}
-                    className={`!px-6 flex items-center justify-between item-button`}
+                    className={`group !px-6 flex items-center justify-between item-button`}
                   >
                     <span>{category}</span>
-                    <ChevronRight className="size-5 text-gray-500" />
+                    <ChevronRight className="stroke-2 size-[22px] text-gray-400 group-hover:text-gray-700 transition-colors duration-200" />
                   </Link>
                 </DrawerClose>
               ))}

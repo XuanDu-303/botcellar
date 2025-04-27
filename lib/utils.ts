@@ -171,3 +171,50 @@ export function formUrlQuery({
     { skipNull: true }
   )
 }
+
+export const getFilterUrl = ({
+  params,
+  category,
+  tags,
+  sort,
+  price,
+  rating,
+  page,
+}: {
+  params: {
+    q?: string
+    category?: string
+    tags?: string
+    price?: string
+    rating?: string
+    sort?: string
+    page?: string
+  }
+  tags?: string
+  category?: string
+  sort?: string
+  price?: string
+  rating?: string
+  page?: string
+}) => {
+  const newParams = { ...params }
+  if (category) newParams.category = category
+  if (tags) newParams.tags = tags
+  .split(",")
+  .map((tag) => toSlug(tag))
+  .join(",");
+  if (price) newParams.price = price
+  if (rating) newParams.rating = rating
+  if (page) newParams.page = page
+  if (sort) newParams.sort = sort
+
+  if (category !== undefined || tags !== undefined || price !== undefined || rating !== undefined || sort !== undefined) {
+    delete newParams.page;
+  }
+
+  if (page !== undefined) {
+    newParams.page = page;
+  }
+
+  return `/search?${new URLSearchParams(newParams).toString()}`
+}

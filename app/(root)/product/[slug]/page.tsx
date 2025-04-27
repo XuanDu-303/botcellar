@@ -13,7 +13,7 @@ import AddToBrowsingHistory from "@/components/shared/product/add-to-browsing-hi
 import { Separator } from "@/components/ui/separator";
 import BrowsingHistoryList from "@/components/shared/browsing-history-list";
 import ProductSlider from "@/components/shared/product/product-slider";
-import RatingSummary from "./_components/rating-summary";
+import RatingSummary from "@/components/shared/product/rating-summary";
 import ReviewList from "./_components/review-list";
 import { auth } from "@/lib/auth";
 
