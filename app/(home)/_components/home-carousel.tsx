@@ -38,7 +38,7 @@ export default function HomeCarousel({
         {items.map((item) => (
           <CarouselItem key={item.title}>
             <Link href={item.url}>
-              <div className="flex aspect-[16/6] items-center justify-center p-6 relative -m-1">
+              <div className="flex aspect-[16/6] items-center justify-center p-6 relative -m-1 bg-muted overflow-hidden">
                 <Image
                   src={item.image}
                   alt={item.title}
@@ -48,10 +48,10 @@ export default function HomeCarousel({
                 />
 
                 {/* Gradient overlay */}
-                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-transparent to-border pointer-events-none z-[1]" />
+                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-transparent to-border dark:to-[hsl(210,0%,12%)] pointer-events-none z-[1]" />
 
                 <div className="absolute w-1/3 left-16 md:left-32 top-1/2 transform -translate-y-1/2 z-[2]">
-                  <h2 className="text-xl md:text-6xl font-bold mb-4 text-primary">
+                  <h2 className="text-xl md:text-6xl font-bold mb-4 text-primary drop-shadow-lg">
                     {item.title}
                   </h2>
                 </div>
@@ -62,12 +62,12 @@ export default function HomeCarousel({
       </CarouselContent>
       <CarouselPrevious
         variant={null}
-        className="absolute left-0 md:left-3 size-8 top-1/4 -translate-y-1/2 h-1/3 w-20 border-2 border-transparent hover:border-2 hover:border-gray-200 cursor-pointer rounded-2xl"
+        className="absolute left-0 md:left-3 top-1/4 text-black -translate-y-1/2 h-1/3 w-20 border-2 border-gray-200/50 hover:border-ring/70 cursor-pointer rounded-xl"
         iconSize={8}
       />
       <CarouselNext
         variant={null}
-        className="absolute right-0 md:right-3 top-1/4 -translate-y-1/2 h-1/3 w-20 z-10 border-2 border-transparent hover:border-2 hover:border-gray-200 cursor-pointer rounded-2xl"
+        className="absolute right-0 md:right-3 top-1/4 text-black -translate-y-1/2 h-1/3 w-20 border-2 border-gray-200/50 hover:border-ring/70 cursor-pointer rounded-xl"
         iconSize={8}
       />
     </Carousel>

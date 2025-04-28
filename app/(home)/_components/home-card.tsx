@@ -25,7 +25,7 @@ export default function HomeCard({ cards }: { cards: CardItem[] }) {
                     height={120}
                     width={120}
                   />
-                  <p className='text-center text-sm whitespace-nowrap overflow-hidden text-ellipsis'>
+                  <p className='text-center mt-1 text-sm whitespace-nowrap overflow-hidden text-ellipsis'>
                     {item.name}
                   </p>
                 </Link>

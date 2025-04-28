@@ -18,11 +18,11 @@ export default function ProductList({
   isPending?: boolean;
 }) {
   return (
-    <div className="md:col-span-7 space-y-4 relative">
+    <div className="md:col-span-7 py-5 space-y-4 relative">
       {/* Overlay loading */}
       {isPending && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm z-10">
-          <div className="border-gray-300 h-16 w-16 animate-spin rounded-full border-8 border-t-blue-600" />
+        <div className="absolute inset-0 flex justify-center bg-muted/60 backdrop-blur-md z-10">
+          <div className="border-gray-300 mt-54 h-16 w-16 animate-spin rounded-full border-8 border-t-primary" />
         </div>
       )}
 
@@ -33,7 +33,7 @@ export default function ProductList({
         }`}
       >
         {productsData.products.length === 0 ? (
-          <div className="col-span-full flex justify-center items-center flex-col py-10 text-muted-foreground">
+          <div className="col-span-full flex flex-col py-1 text-muted-foreground">
             <p>No products found</p>
           </div>
         ) : (

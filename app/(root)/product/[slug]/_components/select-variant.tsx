@@ -22,7 +22,7 @@ export default function SelectVariant({
               asChild
               variant='outline'
               className={
-                `${color === x ? 'border-2 border-primary' : 'border-2'} cursor-pointer`
+                `${color === x ? 'border-2 !border-primary' : 'border-2'} cursor-pointer`
               }
               key={x}
             >
@@ -53,7 +53,7 @@ export default function SelectVariant({
               asChild
               variant='outline'
               className={
-                `${size === x ? 'border-2 border-primary' : 'border-2'} cursor-pointer`
+                `${size === x ? 'border-2 !border-primary' : 'border-2'} cursor-pointer`
               }
               key={x}
             >

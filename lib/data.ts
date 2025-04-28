@@ -1066,19 +1066,19 @@ const data: Data = {
   headerMenus: [
     {
       name: "Today's Deal",
-      href: "/search?tag=todays-deal",
+      href: "/search?tags=todays-deal",
     },
     {
       name: "New Arrivals",
-      href: "/search?tag=new-arrival",
+      href: "/search?tags=new-arrival",
     },
     {
       name: "Featured Products",
-      href: "/search?tag=featured",
+      href: "/search?tags=featured",
     },
     {
       name: "Best Sellers",
-      href: "/search?tag=best-seller",
+      href: "/search?tags=best-seller",
     },
     {
       name: "Browsing History",

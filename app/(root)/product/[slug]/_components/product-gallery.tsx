@@ -20,7 +20,7 @@ export default function ProductGallery({ images }: { images: string[] }) {
             }}
             className={`bg-white rounded-lg overflow-hidden ${
               selectedImage === index
-                ? 'ring-2 ring-blue-500'
+                ? 'ring-2 ring-primary'
                 : 'ring-1 ring-gray-300'
             }`}
           >

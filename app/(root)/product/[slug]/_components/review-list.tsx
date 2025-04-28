@@ -155,19 +155,21 @@ export default function ReviewList({
   };
   return (
     <div className="space-y-2">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div className="flex flex-col gap-2">
-          {loadingReviews ? (
-            <RatingSummarySkeleton />
-          ) : !loadingReviews && reviews.length !== 0 ? (
-            <RatingSummary
-              avgRating={product.avgRating}
-              numReviews={product.numReviews}
-              ratingDistribution={product.ratingDistribution}
-            />
-          ) : (
-            <div>No reviews yet</div>
-          )}
+      <div className="flex gap-8">
+        <div className="flex w-3/9 flex-col gap-2">
+            <div className="pr-5">
+              {loadingReviews ? (
+                <RatingSummarySkeleton />
+              ) : !loadingReviews && reviews.length !== 0 ? (
+                <RatingSummary
+                  avgRating={product.avgRating}
+                  numReviews={product.numReviews}
+                  ratingDistribution={product.ratingDistribution}
+                />
+              ) : (
+                <div>No reviews yet</div>
+              )}
+            </div>
           <Separator className="my-3" />
           <div className="space-y-3">
             <h3 className="font-bold text-lg lg:text-xl">
@@ -298,7 +300,7 @@ export default function ReviewList({
             )}
           </div>
         </div>
-        <div className="md:col-span-3 flex flex-col gap-3">
+        <div className="flex flex-col gap-3 w-full">
           {loadingReviews ? (
             <ReviewListSkeleton />
           ) : (

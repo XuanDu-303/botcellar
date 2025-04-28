@@ -127,7 +127,7 @@
   }
   .highlight-link a,
   a.highlight-link {
-    @apply text-sky-700  hover:text-orange-700 hover:underline;
+    @apply !text-blue-700 hover:text-primary hover:underline;
   }
   .header-button {
     @apply cursor-pointer p-1 border border-transparent hover:border-white rounded-[2px];
@@ -144,4 +144,11 @@
   .flex-between {
     @apply flex justify-between items-center;
   }
+}
+
+html, body {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
 }

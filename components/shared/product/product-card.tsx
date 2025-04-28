@@ -26,7 +26,7 @@ const ProductCard = ({
 }) => {
   const ProductImage = () => (
     <Link href={`/product/${product.slug}`}>
-      <div className="relative p-3 border-b">
+      <div className="relative p-3">
         {product.images.length > 1 ? (
           <ImageHover
             src={product.images[0]}
@@ -113,7 +113,7 @@ const ProductCard = ({
       <ProductImage />
       {!hideDetails && (
         <>
-          <div className="p-3 border flex-1">
+          <div className="p-3 flex-1">
             <ProductDetails />
           </div>
           {!hideAddToCart && <AddButton />}
@@ -121,7 +121,7 @@ const ProductCard = ({
       )}
     </div>
   ) : (
-    <div className="flex flex-col border rounded-md py-3 shadow-lg gap-1">
+    <div className="flex flex-col border rounded-md py-3 shadow-lg gap-1 bg-card">
       <ProductImage />
       {!hideDetails && (
         <div className="h-full p-3 flex flex-col justify-between">

@@ -114,14 +114,14 @@ export default function SearchPageClient() {
     <div>
       {/* Header */}
       <div className="pb-4 md:border-b flex-between flex-col md:flex-row">
-        <div className="flex items-center flex-wrap font-semibold gap-1 text-sm">
+        <div className="flex items-center flex-wrap font-semibold gap-1 text-sm text-foreground">
           {productsData.totalProducts === 0
             ? "No"
             : `${productsData.from}-${productsData.to} of ${productsData.totalProducts}`} results
           {filters.length > 0 && (
             <>
               {" for "}
-              <span className="font-bold text-amber-700">
+              <span className="font-bold text-primary">
                 &quot;{filters.join(", ")}&quot;
               </span>
             </>
@@ -132,7 +132,7 @@ export default function SearchPageClient() {
       </div>
 
       {/* Main Content */}
-      <div className="my-4 bg-card grid md:grid-cols-9 text-[15px] md:gap-4">
+      <div className="my-4 grid md:grid-cols-9 text-[15px] md:gap-4">
         {/* Filters */}
         <div className="md:col-span-2">
           <CollapsibleOnMobile title="Filters">
