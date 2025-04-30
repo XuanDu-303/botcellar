@@ -65,6 +65,8 @@ export function CalendarDateRangePicker({
             selected={calendarDate}
             onSelect={setCalendarDate}
             numberOfMonths={2}
+            className="rounded-md border"
+            showOutsideDays
           />
           <div className='flex gap-4 p-4 pt-0'>
             <PopoverClose asChild>

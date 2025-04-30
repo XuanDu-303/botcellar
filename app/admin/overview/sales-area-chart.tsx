@@ -17,15 +17,22 @@ import {
   YAxis,
 } from "recharts";
 
-const CustomTooltip: React.FC<TooltipProps<number, string>> = ({
+interface CustomTooltipProps extends TooltipProps<number, string> {
+  active?: boolean;
+  payload?: { value: number }[];
+  label?: string;
+}
+
+const CustomTooltip: React.FC<CustomTooltipProps> = ({
   active,
   payload,
+  label
 }) => {
   if (active && payload && payload.length) {
     const item = payload[0];
     return (
       <div className="rounded-xl bg-popover text-foreground px-3 py-2 shadow flex flex-col items-center border border-primary">
-        <p>{item.name && formatDateTime(new Date(item.name)).dateOnly}</p>
+        <p>{label && formatDateTime(new Date(label)).dateOnly}</p>
         <p className="text-primary text-xl">
           <ProductPrice price={item.value!} plain />
         </p>
