@@ -30,7 +30,7 @@ export default function HomeCarousel({
       dir="ltr"
       plugins={[plugin.current]}
       opts={{ loop: true }}
-      className="w-full mx-auto"
+      className="w-full mx-auto bg-white"
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
     >
@@ -38,7 +38,7 @@ export default function HomeCarousel({
         {items.map((item) => (
           <CarouselItem key={item.title}>
             <Link href={item.url}>
-              <div className="flex aspect-[16/6] items-center justify-center p-6 relative -m-1 bg-muted overflow-hidden">
+              <div className="flex aspect-[16/6] items-center justify-center p-6 relative bg-muted -m-1 overflow-hidden">
                 <Image
                   src={item.image}
                   alt={item.title}

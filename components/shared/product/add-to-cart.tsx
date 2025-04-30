@@ -87,7 +87,7 @@ export default function AddToCart({
       </Select>
 
       <Button
-        className="rounded-full w-full cursor-pointer"
+        className="rounded-full w-full cursor-pointer text-muted"
         type="button"
         disabled={pendingTarget === "cart"}
         onClick={() => handleAdd("cart")}

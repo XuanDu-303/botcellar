@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="mdl-js" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased transition-colors duration-300 ease-in-out`}
       >
         <ClientProviders>{children}</ClientProviders>
       </body>

@@ -82,11 +82,11 @@ export function calculateFutureDate(days: number) {
   return currentDate
 }
 export function getMonthName(yearAndMonth: string) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [year, monthNumber] = yearAndMonth.split('-')
-  const date = new Date()
-  date.setMonth(parseInt(monthNumber) - 1)
-  return new Date().getMonth() === parseInt(monthNumber) - 1
+  const [year, month] = yearAndMonth.split('-').map(Number)
+  const date = new Date(year, month - 1)
+  const now = new Date()
+  const isOngoing = now.getFullYear() === year && now.getMonth() === (month - 1)
+  return isOngoing
     ? `${date.toLocaleString('default', { month: 'long' })} (ongoing)`
     : date.toLocaleString('default', { month: 'long' })
 }

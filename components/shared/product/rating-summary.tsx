@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronDownIcon } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
@@ -33,13 +33,24 @@ export default function RatingSummary({
 }: RatingSummaryProps) {
   const [loading, setLoading] = useState(false);
 
-  const ratingPercentageDistribution = ratingDistribution.map((x) => ({
-    ...x,
-    percentage: Math.round((x.count / numReviews) * 100),
-  }));
+  const [animatedPercentages, setAnimatedPercentages] = useState<number[]>([]);
+
+  useEffect(() => {
+    if (!loading && ratingDistribution.length > 0 && numReviews > 0) {
+      setAnimatedPercentages(new Array(ratingDistribution.length).fill(0))
+      const percentages = ratingDistribution.map((x) =>
+        Math.round((x.count / numReviews) * 100)
+      )
+      const timeout = setTimeout(() => {
+        setAnimatedPercentages(percentages)
+      }, 100)
+  
+      return () => clearTimeout(timeout)
+    }
+  }, [loading, ratingDistribution, numReviews])
 
   const RatingDistribution = () => (
-    <div className={`flex flex-col gap-2 ${asTooltip ? 'min-w-74' : ''}`}>
+    <div className={`flex flex-col gap-2 ${asTooltip ? "min-w-72" : ""}`}>
       <div className="flex flex-wrap items-center gap-1 cursor-help text-foreground">
         <Rating rating={avgRating} size={5} />
         <span className="text-lg font-bold">
@@ -52,18 +63,24 @@ export default function RatingSummary({
         {numReviews} {`${!asTooltip ? "global" : ""}`} ratings
       </div>
       <div className="space-y-3">
-        {ratingPercentageDistribution
+        {ratingDistribution
           .sort((a, b) => b.rating - a.rating)
-          .map(({ rating, percentage }) => (
-            <div
-              key={rating}
-              className="flex gap-2 items-center "
-            >
-              <div className="text-sm whitespace-nowrap">{rating} star</div>
-              <Progress value={percentage} className="h-4 rounded-[4px]" />
-              <div className="text-sm text-right whitespace-nowrap min-w-8">{percentage}%</div>
-            </div>
-          ))}
+          .map(({ rating }, index) => {
+            const percentage = animatedPercentages[index] || 0;
+            return (
+              <div key={rating} className="flex gap-2 items-center">
+                <div className="text-sm whitespace-nowrap">{rating} star</div>
+                <Progress
+                  value={percentage}
+                  className="h-4 rounded-[4px] transition-[width] ease-in-out"
+                  style={{ transitionDuration: '1s' }}
+                />
+                <div className="text-sm text-right whitespace-nowrap min-w-8">
+                  {percentage}%
+                </div>
+              </div>
+            );
+          })}
       </div>
     </div>
   );
