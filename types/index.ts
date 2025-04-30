@@ -56,15 +56,6 @@ export type IReviewDetails = IReviewInput & {
   }
 }
 
-export type IOrderList = IOrderInput & {
-  _id: string
-  user: {
-    name: string
-    email: string
-  }
-  createdAt: Date
-}
-
 export type OrderItem = z.infer<typeof OrderItemSchema>;
 export type IOrderInput = z.infer<typeof OrderInputSchema>
 export type Cart = z.infer<typeof CartSchema>;

@@ -18,14 +18,14 @@ export default async function Search() {
       action="/search"
       method="GET"
       className="flex items-stretch h-[38px] bg-muted/50 overflow-hidden rounded-md 
-        transition focus-within:ring-3 focus-within:ring-primary/70 focus-within:outline-none"
+        transition focus-within:ring-4 focus-within:ring-primary/40 focus-within:outline-none"
     >
       {/* Select Category */}
       <Select name="category">
         <SelectTrigger
           className="w-auto min-h-[38px] rounded-none rounded-l-md bg-muted/90 
             border-border border-r-0 text-foreground dark:border-muted-foreground 
-            focus:outline-none focus:ring-4 focus:ring-primary/70 transition"
+            focus:outline-none focus:ring-4 dark:bg-muted focus:ring-primary/70 transition"
         >
           <SelectValue placeholder="All" />
         </SelectTrigger>
@@ -48,7 +48,7 @@ export default async function Search() {
         type="search"
         placeholder={`Search Site ${APP_NAME}`}
         className="flex-1 min-h-[38px] bg-muted text-foreground text-base 
-          rounded-none border-0 dark:border-1 dark:border-muted-foreground focus:outline-none dark:border-r-0"
+          rounded-none border-0 dark:border-1 focus:border-l-none dark:border-muted-foreground dark:border-r-0"
       />
 
       {/* Search Button */}

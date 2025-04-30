@@ -51,7 +51,7 @@ export default function AddToCart({
 
   return minimal ? (
     <Button
-      className="rounded-full w-auto cursor-pointer"
+      className="rounded-full w-auto cursor-pointer text-muted"
       onClick={() => {
         try {
           addItem(item, 1);
@@ -87,7 +87,7 @@ export default function AddToCart({
       </Select>
 
       <Button
-        className="rounded-full w-full cursor-pointer text-muted"
+        className="rounded-full w-full cursor-pointer"
         type="button"
         disabled={pendingTarget === "cart"}
         onClick={() => handleAdd("cart")}
