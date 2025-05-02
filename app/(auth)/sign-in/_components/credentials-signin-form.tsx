@@ -1,6 +1,6 @@
 "use client";
-import { redirect, useSearchParams } from "next/navigation";
-
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -39,6 +39,7 @@ const signInDefaultValues =
 export default function CredentialsSignInForm() {
   const [csrfToken, setCsrfToken] = useState<string | null>(null);
 
+  const router = useRouter();
   useEffect(() => {
     const fetchToken = async () => {
       const token = await getCsrfToken();
@@ -64,7 +65,7 @@ export default function CredentialsSignInForm() {
         email: data.email,
         password: data.password,
       });
-      redirect(callbackUrl);
+      router.push(callbackUrl);
     } catch (error) {
       if (isRedirectError(error)) {
         throw error;

@@ -77,6 +77,7 @@ export type IOrderList = IOrderInput & {
   createdAt: Date
 }
 
+export type CustomerReview = z.infer<typeof ReviewInputSchema>;
 export type OrderItem = z.infer<typeof OrderItemSchema>;
 export type IOrderInput = z.infer<typeof OrderInputSchema>
 export type Cart = z.infer<typeof CartSchema>;

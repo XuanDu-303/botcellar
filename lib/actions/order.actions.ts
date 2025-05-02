@@ -13,6 +13,7 @@ import { DateRange } from 'react-day-picker'
 import Product from '../db/models/product.model'
 import User from '../db/models/user.model'
 import { OrderSummary } from '@/types/order-summary.types';
+import Review from '../db/models/review.model';
 
 export async function getOrderById(orderId: string): Promise<IOrder> {
   await connectToDatabase()
@@ -143,7 +144,7 @@ export async function approvePayPalOrder(
 ) {
   await connectToDatabase()
   try {
-    const order = await Order.findById(orderId).populate('user', 'email')
+    const order = await Order.findById(orderId).populate('user', '_id email')
     if (!order) throw new Error('Order not found')
 
     const captureData = await paypal.capturePayment(data.orderID)
@@ -173,7 +174,18 @@ export async function approvePayPalOrder(
         await product.save();
       }
     }
-
+    const userId =
+      typeof order.user === "string"
+        ? order.user
+        : (order.user as { _id: string })._id;
+    await Review.updateMany(
+      {
+        user: userId,
+        isVerifiedPurchase: false,
+        product: { $in: order.items.map((item) => item.product) },
+      },
+      { $set: { isVerifiedPurchase: true } }
+    );
     await order.save()
     await sendPurchaseReceipt({ order })
     revalidatePath(`/account/orders/${orderId}`)

@@ -163,6 +163,7 @@ export const OrderInputSchema = z.object({
   user: z.union([
     MongoId,
     z.object({
+      _id: MongoId,
       name: z.string(),
       email: z.string().email(),
     }),

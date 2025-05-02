@@ -41,7 +41,7 @@ export default async function SignIn(props: {
           </div>
           <SeparatorWithOr />
           <div className="mt-4">
-            <GoogleSignInButton />
+            <GoogleSignInButton callbackUrl={callbackUrl}  />
           </div>
         </CardContent>
       </Card>

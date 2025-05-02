@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
-import { z } from "zod";
 
 import Rating from "@/components/shared/product/rating";
 import { Button } from "@/components/ui/button";
@@ -52,16 +51,20 @@ import { ReviewInputSchema } from "@/lib/validator";
 import RatingSummary from "@/components/shared/product/rating-summary";
 import { IProduct } from "@/lib/db/models/product.model";
 import { Separator } from "@/components/ui/separator";
-import { IReviewDetails } from "@/types";
+import { CustomerReview, IReviewDetails } from "@/types";
 import Image from "next/image";
 import ReviewListSkeleton from "./review-list-skeleton";
 import RatingSummarySkeleton from "./rating-summary-skeleton";
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton";
 
 const reviewFormDefaultValues = {
   title: "",
   comment: "",
   rating: 0,
+  user: "",
+  product: "",
+  size: "",
+  color: "",
 };
 
 export default function ReviewList({
@@ -118,7 +121,6 @@ export default function ReviewList({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
-  type CustomerReview = z.infer<typeof ReviewInputSchema>;
   const form = useForm<CustomerReview>({
     resolver: zodResolver(ReviewInputSchema),
     defaultValues: reviewFormDefaultValues,
@@ -157,29 +159,30 @@ export default function ReviewList({
     <div className="space-y-2">
       <div className="flex gap-8">
         <div className="flex w-3/9 flex-col gap-2">
-            <div className="pr-5">
-              {loadingReviews ? (
-                <RatingSummarySkeleton />
-              ) : !loadingReviews && reviews.length !== 0 ? (
-                <RatingSummary
-                  avgRating={product.avgRating}
-                  numReviews={product.numReviews}
-                  ratingDistribution={product.ratingDistribution ?? []}
-                />
-              ) : (
-                <div>No reviews yet</div>
-              )}
-            </div>
+          <div className="pr-5">
+            {loadingReviews ? (
+              <RatingSummarySkeleton />
+            ) : !loadingReviews && reviews.length !== 0 ? (
+              <RatingSummary
+                avgRating={product.avgRating}
+                numReviews={product.numReviews}
+                ratingDistribution={product.ratingDistribution ?? []}
+              />
+            ) : (
+              <div>No reviews yet</div>
+            )}
+          </div>
           <Separator className="my-3" />
           <div className="space-y-3">
             <h3 className="font-bold text-lg lg:text-xl">
               Review this product
             </h3>
             <p className="text-sm">Share your thoughts with other customers</p>
-            
-            {loadingReviews ? <Skeleton className="h-9 rounded-full w-full" /> :  !loadingReviews && userId ? (
+
+            {loadingReviews ? (
+              <Skeleton className="h-9 rounded-full w-full" />
+            ) : !loadingReviews && userId ? (
               <Dialog open={open} onOpenChange={setOpen}>
-                
                 <Button
                   onClick={handleOpenForm}
                   variant="outline"
@@ -282,6 +285,7 @@ export default function ReviewList({
                             : "Submit"}
                         </Button>
                       </DialogFooter>
+                      
                     </form>
                   </Form>
                 </DialogContent>
@@ -313,7 +317,7 @@ export default function ReviewList({
                         <Image
                           src={review.user.image}
                           alt={review.user.name || "User"}
-                          unoptimized 
+                          unoptimized
                           width={22}
                           height={22}
                           className="rounded-full object-cover"
@@ -325,9 +329,12 @@ export default function ReviewList({
                         {review.user?.name ?? "Deleted User"}
                       </span>
                     </div>
-                    <div className="italic text-sm flex items-center gap-1">
-                      <Check className="h-4 w-4" /> Verified Purchase
-                    </div>
+                    {review.isVerifiedPurchase && (
+                      <div className="italic text-sm flex items-center gap-1 text-emerald-500">
+                        <Check className="h-4 w-4" />
+                        Verified Purchase
+                      </div>
+                    )}
                   </div>
 
                   <CardTitle className="flex gap-2">

@@ -1,15 +1,17 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 
-export function GoogleSignInButton() {
+export function GoogleSignInButton({ callbackUrl = "/" }: { callbackUrl?: string }) {
   const [loading, setLoading] = useState(false);
 
   const handleGoogleSignIn = async () => {
     setLoading(true);
-    await signIn("google", { callbackUrl: "/admin/overview" });
+    await signIn("google", { callbackUrl });
   };
+
   return (
     <Button
       disabled={loading}

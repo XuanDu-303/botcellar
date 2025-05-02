@@ -22,6 +22,7 @@ export default function HomeCard({ cards }: { cards: CardItem[] }) {
                     src={item.image}
                     alt={item.name}
                     className='aspect-square object-scale-down max-w-full h-auto mx-auto'
+                    unoptimized 
                     height={120}
                     width={120}
                   />
