@@ -17,7 +17,7 @@ export default function SelectVariant({
       {(product.colors ?? []).length > 0 && (
         <div className='space-x-2 space-y-2'>
           <div>Color:</div>
-          {product.colors ?? [].map((x: string) => (
+          {(product.colors ?? []).map((x: string) => (
             <Button
               asChild
               variant='outline'
