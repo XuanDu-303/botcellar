@@ -28,6 +28,7 @@ export default function CartAddItem({ itemId }: { itemId: string }) {
                 src={item.image}
                 alt={item.name}
                 width={80}
+                unoptimized 
                 height={80}
                 style={{
                   maxWidth: '100%',

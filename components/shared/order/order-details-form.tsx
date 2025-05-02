@@ -106,6 +106,7 @@ export default function OrderDetailsForm({
                         <Image
                           src={item.image}
                           alt={item.name}
+                          unoptimized 
                           width={48}
                           height={48}
                           className="rounded-md border"

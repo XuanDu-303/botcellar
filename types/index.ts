@@ -13,14 +13,20 @@ import {
 import { z } from "zod";
 
 export type IProductInput = z.infer<typeof ProductInputSchema>;
+
+export type Option = {
+  label: string;
+  value: string;
+};
+
 export type Data = {
   users: IUserInput[];
   products: IProductInput[];
   reviews: {
-    title: string
-    rating: number
-    comment: string
-  }[]
+    title: string;
+    rating: number;
+    comment: string;
+  }[];
   headerMenus: {
     name: string;
     href: string;
@@ -32,7 +38,13 @@ export type Data = {
     buttonCaption: string;
     isPublished: boolean;
   }[];
+
+  categories: Option[];
+  brands: Option[];
+  sizes: Option[];
+  tags: Option[];
 };
+
 
 export type CardItem = {
   title: string

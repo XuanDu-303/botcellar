@@ -61,7 +61,7 @@ export default function OrderPaymentForm({
   const handleCreatePayPalOrder = async () => {
     const res = await createPayPalOrder(order._id);
     if (!res.success)
-      return toast.success("Success", {
+      return toast.error("Error", {
         description: res.message,
         style: {
           background: "destructive",
@@ -73,7 +73,7 @@ export default function OrderPaymentForm({
     const res = await approvePayPalOrder(order._id, data);
     toast(res.message, {
       style: {
-        background: res.success ? "red" : "destructive",
+        background: res.success ? "white" : "destructive",
       },
     });
   };

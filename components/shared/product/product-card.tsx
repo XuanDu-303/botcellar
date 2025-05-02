@@ -39,6 +39,7 @@ const ProductCard = ({
               src={product.images[0]}
               alt={product.name}
               fill
+              unoptimized 
               sizes="80vw"
               className="object-contain"
             />
@@ -72,13 +73,13 @@ const ProductCard = ({
             avgRating={product.avgRating}
             numReviews={product.numReviews}
             asTooltip
-            ratingDistribution={product.ratingDistribution}
+            ratingDistribution={product.ratingDistribution!}
           />
         )}
       </div>
 
       <ProductPrice
-        isDeal={product.tags.includes("todays-deal")}
+        isDeal={(product.tags ?? []).includes("todays-deal")}
         price={product.price}
         listPrice={product.listPrice}
         forListing
@@ -94,8 +95,8 @@ const ProductCard = ({
         item={{
           cartItemId: generateId(),
           product: product._id,
-          size: product.sizes[0],
-          color: product.colors[0],
+          size: (product.sizes ?? [])[0],
+          color: (product.colors ?? [])[0],
           countInStock: product.countInStock,
           name: product.name,
           slug: product.slug,

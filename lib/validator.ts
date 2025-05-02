@@ -42,9 +42,16 @@ export const ProductInputSchema = z.object({
     .number()
     .int()
     .nonnegative("count in stock must be a non-negative number"),
-  tags: z.array(z.string()).default([]),
-  sizes: z.array(z.string()).default([]),
-  colors: z.array(z.string()).default([]),
+  // ✅ Các trường cần array an toàn
+  tags: z.array(z.string()).default([]).optional(),
+  sizes: z.array(z.string()).default([]).optional(),
+  colors: z.array(z.string()).default([]).optional(),
+  reviews: z.array(ReviewInputSchema).default([]).optional(),
+  ratingDistribution: z
+    .array(z.object({ rating: z.number(), count: z.number() }))
+    .max(5)
+    .default([])
+    .optional(),
   avgRating: z.coerce
     .number()
     .min(0, "Average rating must be at least 0")
@@ -53,11 +60,7 @@ export const ProductInputSchema = z.object({
     .number()
     .int()
     .nonnegative("Number of reviews must be a non-negative number"),
-  ratingDistribution: z
-    .array(z.object({ rating: z.number(), count: z.number() }))
-    .max(5),
-  reviews: z.array(ReviewInputSchema).default([]),
-  numSales: z.coerce // autotimatically convert string to number
+  numSales: z.coerce
     .number()
     .int()
     .nonnegative("Number of sales must be a non-negative number"),
@@ -192,3 +195,7 @@ export const OrderInputSchema = z.object({
   isPaid: z.boolean().default(false),
   paidAt: z.date().optional(),
 });
+
+export const ProductUpdateSchema = ProductInputSchema.extend({
+  _id: z.string(),
+})

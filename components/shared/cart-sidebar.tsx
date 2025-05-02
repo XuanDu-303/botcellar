@@ -66,6 +66,7 @@ export default function CartSidebar() {
                           src={item.image}
                           alt={item.name}
                           fill
+                          unoptimized 
                           sizes="20vw"
                           className="object-contain"
                         />

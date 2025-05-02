@@ -26,6 +26,7 @@ export default function ProductGallery({ images }: { images: string[] }) {
           >
             <Image
               src={image}
+              unoptimized 
               alt={'product image'}
               width={48}
               height={48}
@@ -41,6 +42,7 @@ export default function ProductGallery({ images }: { images: string[] }) {
               src={images[selectedImage]}
               alt={'product image'}
               fill
+              unoptimized 
               sizes='90vw'
               className='object-contain'
               priority

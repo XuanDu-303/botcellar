@@ -57,6 +57,7 @@ export default function CartPage() {
                             src={item.image}
                             alt={item.name}
                             fill
+                            unoptimized 
                             sizes='20vw'
                             style={{
                               objectFit: 'contain',

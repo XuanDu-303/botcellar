@@ -164,7 +164,7 @@ export default function ReviewList({
                 <RatingSummary
                   avgRating={product.avgRating}
                   numReviews={product.numReviews}
-                  ratingDistribution={product.ratingDistribution}
+                  ratingDistribution={product.ratingDistribution ?? []}
                 />
               ) : (
                 <div>No reviews yet</div>
@@ -313,6 +313,7 @@ export default function ReviewList({
                         <Image
                           src={review.user.image}
                           alt={review.user.name || "User"}
+                          unoptimized 
                           width={22}
                           height={22}
                           className="rounded-full object-cover"

@@ -43,9 +43,9 @@ const productSchema = new Schema<IProduct>(
       type: Number,
       required: true,
     },
-    tags: { type: [String], default: ["new arrival"] },
-    colors: { type: [String], default: ["White", "Red", "Black"] },
-    sizes: { type: [String], default: ["S", "M", "L"] },
+    tags: { type: [String], default: [] },
+    colors: { type: [String], default: [] },
+    sizes: { type: [String], default: [] },
     avgRating: {
       type: Number,
       required: true,
@@ -56,18 +56,15 @@ const productSchema = new Schema<IProduct>(
       required: true,
       default: 0,
     },
-    ratingDistribution: [
-      {
-        rating: {
-          type: Number,
-          required: true,
+    ratingDistribution: {
+      type: [
+        {
+          rating: { type: Number, required: true },
+          count: { type: Number, required: true },
         },
-        count: {
-          type: Number,
-          required: true,
-        },
-      },
-    ],
+      ],
+      default: [],
+    },
     numSales: {
       type: Number,
       required: true,

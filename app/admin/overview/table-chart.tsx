@@ -62,6 +62,7 @@ export default function TableChart({
               <Image
                 className='rounded border border-border aspect-square object-scale-down max-w-full h-auto mx-auto mr-1'
                 src={image!}
+                unoptimized 
                 alt={label}
                 width={36}
                 height={36}

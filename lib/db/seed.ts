@@ -33,10 +33,10 @@ const main = async () => {
     for (let i = 0; i < createdProducts.length; i++) {
       let x = 0;
       const { ratingDistribution } = createdProducts[i];
-      for (let j = 0; j < ratingDistribution.length; j++) {
+      for (let j = 0; j < (ratingDistribution ?? []).length; j++) {
         const rating = j + 1;
         const reviewsForRating = reviews.filter((r) => r.rating === rating);
-        for (let k = 0; k < ratingDistribution[j].count; k++) {
+        for (let k = 0; k < (ratingDistribution ?? [])[j].count; k++) {
           x++;
           const reviewSample = reviewsForRating[x % reviewsForRating.length];
           const user = createdUser[x % createdUser.length];

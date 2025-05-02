@@ -17,15 +17,18 @@ export default async function Search() {
     <form
       action="/search"
       method="GET"
-      className="flex items-stretch h-[38px] bg-muted/50 overflow-hidden rounded-md 
-        transition focus-within:ring-4 focus-within:ring-primary/40 focus-within:outline-none"
+      className="group flex items-stretch h-[38px] bg-muted/50 overflow-hidden rounded-md 
+    transition focus-within:ring-3 focus-within:ring-primary/50 focus-within:outline-none"
     >
       {/* Select Category */}
       <Select name="category">
         <SelectTrigger
-          className="w-auto min-h-[38px] rounded-none rounded-l-md bg-muted/90 
-            border-border border-r-0 text-foreground dark:border-muted-foreground 
-            focus:outline-none focus:ring-4 dark:bg-muted focus:ring-primary/70 transition"
+          className="w-auto min-h-[38px] rounded-none rounded-l-md !bg-muted/90
+        text-foreground 
+        focus:outline-none focus:ring-0 transition
+        border border-r-0 border-muted-foreground 
+        group-focus-within:border-y-primary group-focus-within:border-l-primary
+      "
         >
           <SelectValue placeholder="All" />
         </SelectTrigger>
@@ -48,14 +51,21 @@ export default async function Search() {
         type="search"
         placeholder={`Search Site ${APP_NAME}`}
         className="flex-1 min-h-[38px] bg-muted text-foreground text-base 
-          rounded-none border-0 dark:border-1 focus:border-l-none dark:border-muted-foreground dark:border-r-0"
+        rounded-none border border-x-0 border-muted-foreground 
+        
+        focus:!outline-none focus:!ring-0
+        focus:border-x-transparent
+        group-focus-within:!border-y-primary
+        shadow-none
+        appearance-none
+    "
       />
 
       {/* Search Button */}
       <button
         type="submit"
         className="bg-primary text-primary-foreground flex items-center justify-center 
-          px-[10px] rounded-r-md hover:bg-primary/90 transition-colors cursor-pointer"
+      px-[10px] rounded-r-md hover:bg-primary/90 transition-colors cursor-pointer"
       >
         <SearchIcon className="size-6" />
       </button>

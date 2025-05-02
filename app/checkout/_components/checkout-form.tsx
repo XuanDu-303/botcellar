@@ -566,6 +566,7 @@ const CheckoutForm = () => {
                               <Image
                                 src={item.image}
                                 alt={item.name}
+                                unoptimized 
                                 fill
                                 sizes="20vw"
                                 style={{

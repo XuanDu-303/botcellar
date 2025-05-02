@@ -971,87 +971,87 @@ const products: IProductInput[] = [
 const reviews = [
   {
     rating: 1,
-    title: 'Poor quality',
+    title: "Poor quality",
     comment:
-      'Very disappointed. The item broke after just a few uses. Not worth the money.',
+      "Very disappointed. The item broke after just a few uses. Not worth the money.",
   },
   {
     rating: 2,
-    title: 'Disappointed',
+    title: "Disappointed",
     comment:
       "Not as expected. The material feels cheap, and it didn't fit well. Wouldn't buy again.",
   },
   {
     rating: 2,
-    title: 'Needs improvement',
+    title: "Needs improvement",
     comment:
       "It looks nice but doesn't perform as expected. Wouldn't recommend without upgrades.",
   },
   {
     rating: 3,
-    title: 'not bad',
+    title: "not bad",
     comment:
-      'This product is decent, the quality is good but it could use some improvements in the details.',
+      "This product is decent, the quality is good but it could use some improvements in the details.",
   },
   {
     rating: 3,
-    title: 'Okay, not great',
+    title: "Okay, not great",
     comment:
-      'It works, but not as well as I hoped. Quality is average and lacks some finishing.',
+      "It works, but not as well as I hoped. Quality is average and lacks some finishing.",
   },
   {
     rating: 3,
-    title: 'Good product',
+    title: "Good product",
     comment:
-      'This product is amazing, I love it! The quality is top notch, the material is comfortable and breathable.',
+      "This product is amazing, I love it! The quality is top notch, the material is comfortable and breathable.",
   },
   {
     rating: 4,
-    title: 'Pretty good',
+    title: "Pretty good",
     comment:
       "Solid product! Great value for the price, but there's room for minor improvements.",
   },
   {
     rating: 4,
-    title: 'Very satisfied',
+    title: "Very satisfied",
     comment:
-      'Good product! High quality and worth the price. Would consider buying again.',
+      "Good product! High quality and worth the price. Would consider buying again.",
   },
   {
     rating: 4,
-    title: 'Absolutely love it!',
+    title: "Absolutely love it!",
     comment:
-      'Perfect in every way! The quality, design, and comfort exceeded all my expectations.',
+      "Perfect in every way! The quality, design, and comfort exceeded all my expectations.",
   },
   {
     rating: 4,
-    title: 'Exceeded expectations!',
+    title: "Exceeded expectations!",
     comment:
-      'Fantastic product! High quality, feels durable, and performs well. Highly recommend!',
+      "Fantastic product! High quality, feels durable, and performs well. Highly recommend!",
   },
   {
     rating: 5,
-    title: 'Perfect purchase!',
+    title: "Perfect purchase!",
     comment:
       "Couldn't be happier with this product. The quality is excellent, and it works flawlessly!",
   },
   {
     rating: 5,
-    title: 'Highly recommend',
+    title: "Highly recommend",
     comment:
       "Amazing product! Worth every penny, great design, and feels premium. I'm very satisfied.",
   },
   {
     rating: 5,
-    title: 'Just what I needed',
+    title: "Just what I needed",
     comment:
-      'Exactly as described! Quality exceeded my expectations, and it arrived quickly.',
+      "Exactly as described! Quality exceeded my expectations, and it arrived quickly.",
   },
   {
     rating: 5,
-    title: 'Excellent choice!',
+    title: "Excellent choice!",
     comment:
-      'This product is outstanding! Everything about it feels top-notch, from material to functionality.',
+      "This product is outstanding! Everything about it feels top-notch, from material to functionality.",
   },
   {
     rating: 5,
@@ -1059,7 +1059,7 @@ const reviews = [
     comment:
       "Love this product! It's durable, stylish, and works great. Would buy again without hesitation.",
   },
-]
+];
 
 const data: Data = {
   users,
@@ -1121,7 +1121,58 @@ const data: Data = {
     },
   ],
   products,
-  reviews
+  reviews,
+  categories: [
+    { label: "Jeans", value: "Jeans" },
+    { label: "Shoes", value: "Shoes" },
+    { label: "T-Shirts", value: "T-Shirts" },
+    { label: "Wrist Watches", value: "Wrist Watches" },
+  ],
+
+  brands: [
+    { label: "Nike", value: "Nike" },
+    { label: "Jerzees", value: "Jerzees" },
+    { label: "Muscle Cmdr", value: "Muscle Cmdr" },
+    { label: "Silver Jeans Co", value: "Silver Jeans Co" },
+    { label: "Levi's", value: "Levi's" },
+    { label: "Essentials", value: "Essentials" },
+    { label: "Buffalo David Bitton", value: "Buffalo David Bitton" },
+    { label: "Dickies", value: "Dickies" },
+    { label: "Wrangler", value: "Wrangler" },
+    { label: "Seiko", value: "Seiko" },
+    { label: "Casio", value: "Casio" },
+    { label: "Fossil", value: "Fossil" },
+    { label: "adidas", value: "adidas" },
+    { label: "ziitop", value: "ziitop" },
+    { label: "Skechers", value: "Skechers" },
+    { label: "DLWKIPV", value: "DLWKIPV" },
+    { label: "ASICS", value: "ASICS" },
+    { label: "Generic", value: "Generic" },
+  ],
+
+  sizes: [
+    { label: "XS", value: "XS" },
+    { label: "S", value: "S" },
+    { label: "M", value: "M" },
+    { label: "L", value: "L" },
+    { label: "XL", value: "XL" },
+    { label: "XXL", value: "XXL" },
+    { label: "8", value: "8" },
+    { label: "9", value: "9" },
+    { label: "10", value: "10" },
+    { label: "11", value: "11" },
+    { label: "12", value: "12" },
+    { label: "30Wx30L", value: "30Wx30L" },
+    { label: "34Wx30L", value: "34Wx30L" },
+    { label: "36Wx30L", value: "36Wx30L" },
+  ],
+
+  tags: [
+    { label: "Today's Deal", value: "todays-deal" },
+    { label: "New Arrival", value: "new-arrival" },
+    { label: "Featured", value: "featured" },
+    { label: "Best Seller", value: "best-seller" },
+  ],
 };
 
 export default data;

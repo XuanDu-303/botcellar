@@ -39,7 +39,7 @@ export default async function Header() {
           <Search />
         </div>
       </div>
-      <div className="flex px-3 bg-gray-800">
+      <div className="flex px-3 bg-gray-800 border-y border-gray-800">
         <Sidebar categories={categories} session={session}/>
         <div className="flex items-center text-sm flex-wrap gap-3 overflow-hidden">
           {data.headerMenus.map((menu) => (
