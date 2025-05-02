@@ -95,7 +95,7 @@ export default function OrderDetailsForm({
               <TableBody>
                 {items.map((item) => (
                   <TableRow
-                    key={item.slug}
+                    key={item.cartItemId}
                     className="hover:bg-gray-50 transition"
                   >
                     <TableCell>

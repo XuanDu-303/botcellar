@@ -208,7 +208,7 @@ export default function OrderPaymentForm({
               </p>
               <ul>
                 {items.map((item) => (
-                  <li key={item.slug}>
+                  <li key={item.cartItemId}>
                     {item.name} x {item.quantity} = {item.price}
                   </li>
                 ))}

@@ -162,6 +162,18 @@ export async function approvePayPalOrder(
       pricePaid:
         captureData.purchase_units[0]?.payments?.captures[0]?.amount?.value,
     }
+
+    for (const item of order.items) {
+      const product = await Product.findById(item.product);
+      if (product) {
+        product.countInStock = Math.max(
+          0,
+          (product.countInStock || 0) - item.quantity
+        );
+        await product.save();
+      }
+    }
+
     await order.save()
     await sendPurchaseReceipt({ order })
     revalidatePath(`/account/orders/${orderId}`)
