@@ -56,6 +56,8 @@ export const AVAILABLE_DELIVERY_DATES = [
   },
 ]
 
+export const USER_ROLES = ['Admin', 'User']
+
 export const SERVER_URL =
   process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
 
