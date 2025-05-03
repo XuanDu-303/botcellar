@@ -20,13 +20,17 @@ export const toSlug = (text: string): string =>
     .replace(/^-+|-+$/g, '')
     .replace(/-+/g, '-')
 
-const CURRENCY_FORMATTER = new Intl.NumberFormat('en-US', {
-  currency: 'USD',
-  style: 'currency',
-  minimumFractionDigits: 2,
-})
-export function formatCurrency(amount: number) {
-  return CURRENCY_FORMATTER.format(amount)
+export function formatCurrency(
+  amount: number,
+  currency: string = "USD",
+  locale: string = "en-US"
+): string {
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
 }
 // export function formatCurrencyDynamic(
 //   amount: number,

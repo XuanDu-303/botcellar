@@ -1,5 +1,5 @@
 'use client'
-
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 
@@ -29,24 +29,24 @@ const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
     router.push(newUrl, { scroll: true })
   }
   return (
-    <div className='flex gap-2'>
+    <div className='flex justify-center items-center gap-2 pt-2 text-sm text-muted-foreground'>
       <Button
         size='lg'
         variant='outline'
-        className='w-28 cursor-pointer'
+        className='flex justify-start items-center w-28 cursor-pointer'
         onClick={() => onClick('prev')}
         disabled={Number(page) <= 1}
       >
-        Previous
+        <ChevronLeft className="h-4 w-4" /> Previous
       </Button>
       <Button
         size='lg'
         variant='outline'
-        className='w-28 cursor-pointer'
+        className='flex justify-center w-28 items-center cursor-pointer'
         onClick={() => onClick('next')}
         disabled={Number(page) >= totalPages}
       >
-        Next
+        Next <ChevronRight className="h-4 w-4" />
       </Button>
     </div>
   )

@@ -65,7 +65,7 @@ export default async function Search() {
       <button
         type="submit"
         className="bg-primary text-primary-foreground flex items-center justify-center 
-      px-[10px] rounded-r-md hover:bg-primary/90 transition-colors cursor-pointer"
+      px-[10px] rounded-r-md hover:bg-primary/90 transition-colors cursor-pointer "
       >
         <SearchIcon className="size-6" />
       </button>
