@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { APP_DESCRIPTION, APP_NAME, APP_SLOGAN } from '@/lib/constants'
+import { APP_DESCRIPTION, APP_NAME, APP_SLOGAN } from "@/lib/constants";
 import "./globals.css";
 import ClientProviders from "@/components/shared/providers/client-providers";
+import ChatbotWidget from "@/components/shared/chatbot-witget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
     default: `${APP_NAME}. ${APP_SLOGAN}`,
   },
   description: APP_DESCRIPTION,
-}
+};
 
 export default function RootLayout({
   children,
@@ -33,6 +34,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased transition-colors duration-300 ease-in-out`}
       >
         <ClientProviders>{children}</ClientProviders>
+        <ChatbotWidget />
       </body>
     </html>
   );
