@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth"
 import { randomUUID } from "crypto"
 import { handleProductSearch } from "@/lib/dialogflow/handlers"
 import { connectToDatabase } from "@/lib/db"
-import { getDialogflowToken } from "@/lib/google/getDialogflowToken"
+import { getDialogflowToken } from "@/lib/dialogflow"
 import { IProduct } from "@/lib/db/models/product.model"
 
 export async function POST(req: NextRequest) {

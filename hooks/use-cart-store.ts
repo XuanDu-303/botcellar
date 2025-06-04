@@ -18,6 +18,7 @@ interface CartState {
   cart: Cart;
   isLoading: boolean,
   setIsLoading: (value: boolean) => void
+  setCart: (cart: Cart) => void
   addItem: (item: OrderItem, quantity: number) => Promise<string>;
   updateItem: (item: OrderItem, quantity: number) => Promise<void>;
   removeItem: (item: OrderItem) => void;
@@ -39,6 +40,8 @@ const useCartStore = create(
       isLoading: true,
 
       setIsLoading: (value) => set({ isLoading: value }),
+
+      setCart: (cartData) => set({ cart: { ...cartData } }),
 
       addItem: async (item, quantity) => {
         set({ isLoading: true });

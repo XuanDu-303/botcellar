@@ -43,7 +43,9 @@ import {
   DEFAULT_PAYMENT_METHOD,
 } from "@/lib/constants";
 import { createOrder } from "@/lib/actions/order.actions";
+import { auth } from '@/lib/auth'
 import { toast } from "sonner";
+import { clearCartServer } from "@/lib/actions/cart.actions";
 
 const shippingAddressDefaultValues =
   process.env.NODE_ENV === "development"
@@ -116,6 +118,8 @@ const CheckoutForm = () => {
   }, [items, isMounted, router, shippingAddress, shippingAddressForm]);
 
   const handlePlaceOrder = async () => {
+    const session = await auth()
+
     const res = await createOrder({
       items,
       shippingAddress,
@@ -138,6 +142,9 @@ const CheckoutForm = () => {
         description: res.message,
       })
       clearCart()
+      if (session?.user?.id) {
+        await clearCartServer()
+      }
       router.push(`/checkout/${res.data?.orderId}`)
     }
   };
