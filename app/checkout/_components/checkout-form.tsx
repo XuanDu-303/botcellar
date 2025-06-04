@@ -43,7 +43,7 @@ import {
   DEFAULT_PAYMENT_METHOD,
 } from "@/lib/constants";
 import { createOrder } from "@/lib/actions/order.actions";
-import { auth } from '@/lib/auth'
+import { useSession } from 'next-auth/react'
 import { toast } from "sonner";
 import { clearCartServer } from "@/lib/actions/cart.actions";
 
@@ -70,7 +70,7 @@ const shippingAddressDefaultValues =
 
 const CheckoutForm = () => {
   const router = useRouter();
-
+  const { data: session } = useSession()
   const {
     cart: {
       items,
@@ -118,7 +118,6 @@ const CheckoutForm = () => {
   }, [items, isMounted, router, shippingAddress, shippingAddressForm]);
 
   const handlePlaceOrder = async () => {
-    const session = await auth()
 
     const res = await createOrder({
       items,
