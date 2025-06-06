@@ -8,6 +8,7 @@ import { formatError } from '../utils'
 import { ProductInputSchema, ProductUpdateSchema } from '../validator'
 import { IProductInput } from '@/types'
 import { z } from 'zod'
+import esClient from '@/lib/es'
 
 export async function getAllCategories() {
   await connectToDatabase();
@@ -99,90 +100,90 @@ export async function getRelatedProductsByCategory({
   };
 }
 
-export async function getAllProducts({
+export async function searchProducts({
   query,
-  limit,
-  page,
   category,
   tags,
   price,
   rating,
   sort,
+  page = 1,
+  limit = PAGE_SIZE,
 }: {
-  query: string;
-  category: string;
-  tags: string;
-  limit?: number;
-  page: number;
-  price?: string;
-  rating?: string;
-  sort?: string;
+  query: string
+  category: string
+  tags: string
+  price?: string
+  rating?: string
+  sort?: string
+  page?: number
+  limit?: number
 }) {
-  limit = limit || PAGE_SIZE;
-  await connectToDatabase();
+  const must: Record<string, unknown>[] = [{ term: { isPublished: true } }]
 
-  const queryFilter = query && query !== "all"
-    ? { name: { $regex: query, $options: "i" } }
-    : {};
+  if (query && query !== 'all') {
+    must.push({
+      multi_match: {
+        query,
+        fields: ['name^3', 'description', 'category', 'tags', 'brand'],
+        fuzziness: 'AUTO',
+      },
+    })
+  }
 
-  const categoryFilter = category && category !== "all"
-    ? { category }
-    : {};
+  if (category && category !== 'all') {
+    must.push({ term: { category } })
+  }
 
-  const tagsFilter = tags && tags !== "all"
-    ? { tags: { $in: tags.split(",") } }
-    : {};
+  if (tags && tags !== 'all') {
+    must.push({ terms: { tags: tags.split(',') } })
+  }
 
-  const ratingFilter = rating && rating !== "all"
-    ? { avgRating: { $gte: Number(rating) } }
-    : {};
+  if (price && price !== 'all') {
+    const [gte, lte] = price.split('-').map(Number)
+    must.push({ range: { price: { gte, lte } } })
+  }
 
-  const priceFilter = price && price !== "all"
-    ? {
-        price: {
-          $gte: Number(price.split("-")[0]),
-          $lte: Number(price.split("-")[1]),
-        },
-      }
-    : {};
+  if (rating && rating !== 'all') {
+    must.push({ range: { avgRating: { gte: Number(rating) } } })
+  }
 
-  const order: Record<string, 1 | -1> =
-    sort === "best-selling"
-      ? { numSales: -1 }
-      : sort === "price-low-to-high"
-        ? { price: 1 }
-        : sort === "price-high-to-low"
-          ? { price: -1 }
-          : sort === "avg-customer-review"
-            ? { avgRating: -1 }
-            : { _id: -1 }; // newest
+  let sortField: Record<string, 'asc' | 'desc'> = { createdAt: 'desc' }
 
-  const isPublished = { isPublished: true };
+  if (sort === 'best-selling') {
+    sortField = { numSales: 'desc' }
+  } else if (sort === 'price-low-to-high') {
+    sortField = { price: 'asc' }
+  } else if (sort === 'price-high-to-low') {
+    sortField = { price: 'desc' }
+  } else if (sort === 'avg-customer-review') {
+    sortField = { avgRating: 'desc' }
+  }
 
-  const filters = {
-    ...isPublished,
-    ...queryFilter,
-    ...categoryFilter,
-    ...tagsFilter,
-    ...priceFilter,
-    ...ratingFilter,
-  };
+  const from = limit * (page - 1)
 
-  const products = await Product.find(filters)
-    .sort(order)
-    .skip(limit * (page - 1))
-    .limit(limit)
-    .lean();
+  const { hits } = await esClient.search<IProduct>({
+    index: 'products',
+    from,
+    size: limit,
+    query: { bool: { must } },
+    sort: [sortField],
+  })
 
-  const countProducts = await Product.countDocuments(filters);
+  const products = hits.hits.map(({ _id, _source }) => ({
+    ...(_source as IProduct),
+    _id,
+  })) as IProduct[]
+
+  const total = typeof hits.total === 'number' ? hits.total : hits.total?.value || 0
 
   return {
-    products: JSON.parse(JSON.stringify(products)) as IProduct[],
-    totalPages: Math.ceil(countProducts / limit),
-    totalProducts: countProducts,
-    from: limit * (page - 1) + 1,
-    to: limit * (page - 1) + products.length,
-  };
+    products,
+    totalPages: Math.ceil(total / limit),
+    totalProducts: total,
+    from: from + 1,
+    to: from + products.length,
+  }
 }
 
 export async function getAllPublishedProducts() {

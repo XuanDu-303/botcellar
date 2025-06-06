@@ -8,7 +8,7 @@ import Sidebar from "./siderbar";
 import ProductCard from "@/components/shared/product/product-card";
 import Pagination from "@/components/shared/pagination";
 import {
-  getAllProducts,
+  searchProducts,
 } from "@/lib/actions/product.actions";
 import { IProduct } from "@/lib/db/models/product.model";
 
@@ -63,7 +63,7 @@ export default function SearchPageClient() {
   useEffect(() => {
     function fetchProducts() {
       startTransition(async () => {
-        const products = await getAllProducts({
+        const products = await searchProducts({
           query: q,
           category,
           tags,
