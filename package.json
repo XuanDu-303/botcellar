@@ -8,7 +8,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "es:index": "npx tsx ./lib/scripts/indexAllProducts.ts"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.8.0",
@@ -39,6 +40,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "date-fns": "^3.6.0",
+    "dotenv": "^16.5.0",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "google-auth-library": "^9.15.1",

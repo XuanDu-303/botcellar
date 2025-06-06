@@ -185,6 +185,9 @@ export async function getAllProducts({
   };
 }
 
+export async function getAllPublishedProducts() {
+  return await Product.find({ isPublished: true }).lean()
+}
 
 export async function getAllTags() {
   const tags = await Product.aggregate([
