@@ -33,8 +33,8 @@ export async function POST(req: NextRequest) {
   )
   
   if (!response.ok) {
-    const text = await response.text() // fallback để xem nội dung trả về là gì
-    console.error("❌ Dialogflow API error:", response.status, text)
+    const text = await response.text()
+    console.error("Dialogflow API error:", response.status, text)
     return NextResponse.json({
       fulfillmentText: `Dialogflow API error: ${response.status}`,
       products: [],
