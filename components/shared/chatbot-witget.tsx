@@ -9,6 +9,7 @@ import Link from "next/link";
 import Rating from "./product/rating";
 import { formatNumber } from "@/lib/utils";
 import ProductPrice from "./product/product-price";
+import { useSession } from "next-auth/react";
 
 type BotMessage = {
   from: "bot";
@@ -26,6 +27,10 @@ export default function ChatbotWidget() {
   const [messages, setMessages] = useState<(UserMessage | BotMessage)[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const { data: session } = useSession()
+
+  if (!session || session.user.role !== 'user') return null
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;

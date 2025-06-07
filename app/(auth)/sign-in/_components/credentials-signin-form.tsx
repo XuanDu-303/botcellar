@@ -141,7 +141,7 @@ export default function CredentialsSignInForm() {
             </div>
 
             {/* Forgot Password Link */}
-            <div className="text-right">
+            <div className="text-left">
               <Link href="/forgot-password" className="text-sm underline text-blue-600 hover:text-blue-800">
                 Forgot password?
               </Link>
@@ -149,7 +149,7 @@ export default function CredentialsSignInForm() {
 
             {/* Terms and Privacy */}
             <div className="text-sm text-gray-600">
-              By signing in, you agree to <strong>{APP_NAME}</strong> is{" "}
+              By signing in, you agree to <strong>{APP_NAME}</strong>&lsquo;s{" "}
               <Link href="/page/conditions-of-use" className="underline hover:text-blue-700">
                 Conditions of Use
               </Link>{" "}

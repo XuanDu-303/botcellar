@@ -26,7 +26,7 @@ type SearchResult = {
   images: string[]
 }
 
-export default function SearchClient({ categories }: Props) {
+export default function Search({ categories }: Props) {
   const [isFocused, setIsFocused] = useState(false)
   const router = useRouter()
   const [query, setQuery] = useState('')

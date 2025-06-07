@@ -33,8 +33,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased transition-colors duration-300 ease-in-out`}
       >
-        <ClientProviders>{children}</ClientProviders>
-        <ChatbotWidget />
+        <ClientProviders>
+          {children}
+          <ChatbotWidget />
+        </ClientProviders>
       </body>
     </html>
   );
