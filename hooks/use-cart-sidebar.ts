@@ -3,7 +3,7 @@ import useDeviceType from './use-device-type'
 import useCartStore from './use-cart-store'
 
 const isNotInPaths = (s: string) =>
-  !/^\/$|^\/cart$|^\/checkout$|^\/sign-in$|^\/sign-up$|^\/forgot-password$|^\/reset-password$|^\/order(\/.*)?$|^\/account(\/.*)?$|^\/admin(\/.*)?$/.test(
+  !/^\/$|^\/cart$|^\/checkout(\/.*)?$|^\/sign-in(\/.*)?$|^\/sign-up(\/.*)?$|^\/forgot-password(\/.*)?$|^\/reset-password(\/.*)?$|^\/order(\/.*)?$|^\/account(\/.*)?$|^\/admin(\/.*)?$/.test(
     s
   )
 function useCartSidebar() {

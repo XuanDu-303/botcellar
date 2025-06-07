@@ -13,9 +13,10 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
+# Next.js
+.next/
+out/
+*.tsbuildinfo
 
 # production
 /build
@@ -30,8 +31,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# Env files
+.env
+.env.*
 
 # vercel
 .vercel
@@ -41,3 +43,13 @@ yarn-error.log*
 next-env.d.ts
 
 /credentials
+
+# Docker
+Dockerfile
+.dockerignore
+
+# VSCode
+.vscode/
+
+# Git
+.git/

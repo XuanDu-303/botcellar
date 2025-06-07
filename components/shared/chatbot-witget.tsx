@@ -10,6 +10,7 @@ import Rating from "./product/rating";
 import { formatNumber } from "@/lib/utils";
 import ProductPrice from "./product/product-price";
 import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 type BotMessage = {
   from: "bot";
@@ -28,9 +29,14 @@ export default function ChatbotWidget() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { data: session } = useSession()
+  const pathname = usePathname()
+  const { data: session, status } = useSession()
 
-  if (!session || session.user.role !== 'user') return null
+  if (
+    pathname.startsWith('/admin') || status === 'loading' || !session 
+  ) {
+    return null
+  }
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
