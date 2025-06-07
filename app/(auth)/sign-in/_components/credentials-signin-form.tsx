@@ -24,6 +24,7 @@ import { UserSignInSchema } from "@/lib/validator";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { APP_NAME } from "@/lib/constants";
 import { useEffect, useState } from "react";
+import Loading from "@/components/shared/loading";
 
 const signInDefaultValues =
   process.env.NODE_ENV === "development"
@@ -131,16 +132,34 @@ export default function CredentialsSignInForm() {
             )}
           />
 
-          <div>
-            <Button className="cursor-pointer" type="submit">
-              Sign In
-            </Button>
+          <div className="space-y-4">
+            {/* Submit Button */}
+            <div>
+              <Button type="submit" className="cursor-pointer">
+                {form.formState.isSubmitting ? <div className="flex gap-2 items-center">{<Loading className="fill-foreground" />}</div> : `Sign In`}
+              </Button>
+            </div>
+
+            {/* Forgot Password Link */}
+            <div className="text-right">
+              <Link href="/forgot-password" className="text-sm underline text-blue-600 hover:text-blue-800">
+                Forgot password?
+              </Link>
+            </div>
+
+            {/* Terms and Privacy */}
+            <div className="text-sm text-gray-600">
+              By signing in, you agree to <strong>{APP_NAME}</strong> is{" "}
+              <Link href="/page/conditions-of-use" className="underline hover:text-blue-700">
+                Conditions of Use
+              </Link>{" "}
+              and{" "}
+              <Link href="/page/privacy-policy" className="underline hover:text-blue-700">
+                Privacy Notice
+              </Link>.
+            </div>
           </div>
-          <div className="text-sm">
-            By signing in, you agree to {APP_NAME}&apos;s{" "}
-            <Link href="/page/conditions-of-use">Conditions of Use</Link> and{" "}
-            <Link href="/page/privacy-policy">Privacy Notice.</Link>
-          </div>
+
         </div>
       </form>
     </Form>

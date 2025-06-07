@@ -31,12 +31,12 @@ export default async function Header() {
             </Link>
           </div>
           <div className="hidden md:block flex-1 max-w-xl">
-            <Search />
+            <Search categories={categories}/>
           </div>
           <Menu />
         </div>
         <div className="md:hidden block py-2">
-          <Search />
+          <Search categories={categories}/>
         </div>
       </div>
       <div className="flex px-3 bg-gray-800 border-y border-gray-800">

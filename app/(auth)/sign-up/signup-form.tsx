@@ -24,6 +24,7 @@ import { Separator } from '@/components/ui/separator'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { APP_NAME } from '@/lib/constants'
 import { Eye, EyeOff } from 'lucide-react'
+import Loading from '@/components/shared/loading'
 
 const signUpDefaultValues =
   process.env.NODE_ENV === 'development'
@@ -156,7 +157,7 @@ export default function SignUpForm() {
           />
 
           <Button type='submit' className='w-full cursor-pointer'>
-            Sign Up
+            {form.formState.isSubmitting ? <div className="flex gap-2 items-center">{<Loading className="fill-foreground" />}</div> : `Sign Up`}
           </Button>
 
           <div className='text-sm'>

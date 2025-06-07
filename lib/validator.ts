@@ -158,6 +158,19 @@ export const UserSignUpSchema = UserSignInSchema.extend({
   path: ["confirmPassword"],
 });
 
+export const ForgotPasswordSchema = z.object({
+  email: Email,
+})
+
+export const ResetPasswordSchema = z
+  .object({
+    password: Password,
+    confirmPassword: Password,
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  })
 // Order
 export const OrderInputSchema = z.object({
   user: z.union([
