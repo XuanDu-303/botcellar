@@ -269,3 +269,22 @@ html, body {
 .box:nth-child(3)::after {
   animation: squidge-2 var(--duration) ease-in-out infinite alternate;
 }
+
+.web-page-content p {
+  @apply py-2;
+}
+
+.web-page-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.web-page-content pre {
+  overflow-x: auto;
+}
+
+.web-page-content table {
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}

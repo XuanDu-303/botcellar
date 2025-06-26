@@ -36,9 +36,6 @@ export const ProfileForm = () => {
     if (!res.success)
       return toast.success("Success", {
         description: res.message,
-        style: {
-          background: "destructive",
-        },
       });
 
     const { data, message } = res;
@@ -52,9 +49,6 @@ export const ProfileForm = () => {
     await update(newSession);
     toast.success("Success", {
       description: message,
-      style: {
-        background: "destructive",
-      },
     });
     router.push("/account/manage");
   }

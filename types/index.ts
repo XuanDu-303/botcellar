@@ -11,6 +11,7 @@ import {
   UserNameSchema,
   ForgotPasswordSchema,
   ResetPasswordSchema,
+  WebPageInputSchema,
 } from "@/lib/validator";
 import { z } from "zod";
 
@@ -45,6 +46,7 @@ export type Data = {
   brands: Option[];
   sizes: Option[];
   tags: Option[];
+  webPages: IWebPageInput[]
 };
 
 
@@ -91,3 +93,4 @@ export type IUserSignUp = z.infer<typeof UserSignUpSchema>
 export type IUserName = z.infer<typeof UserNameSchema>
 export type IForgotPassword = z.infer<typeof ForgotPasswordSchema>
 export type IResetPassword = z.infer<typeof ResetPasswordSchema>
+export type IWebPageInput = z.infer<typeof WebPageInputSchema>
