@@ -52,7 +52,7 @@ const ProductPrice = ({
 
   if (convertedListPrice === 0) {
     return (
-      <div className={cn("text-3xl", className)}>
+      <div className={cn("text-2xl", className)}>
         {formattedPrice}
       </div>
     );
@@ -60,7 +60,7 @@ const ProductPrice = ({
 
   if (isDeal) {
     return (
-      <div className="space-y-2">
+      <div className="space-y-1">
         <div className="flex items-center gap-2">
           {!hideDiscount && (
             <span className="bg-red-700 rounded-sm p-1 text-white text-sm font-semibold">
@@ -72,7 +72,7 @@ const ProductPrice = ({
           </span>
         </div>
         <div className={`flex ${forListing ? "" : ""} items-center gap-2`}>
-          <div className={cn("text-3xl", className)}>
+          <div className={cn("text-2xl", className)}>
             {formattedPrice}
           </div>
           <div className="text-muted-foreground text-xs py-2">
@@ -90,9 +90,9 @@ const ProductPrice = ({
     <div>
       <div className="flex gap-3">
         {!hideDiscount && (
-          <div className="text-3xl text-orange-700">-{discountPercent}%</div>
+          <div className="text-2xl text-orange-700">-{discountPercent}%</div>
         )}
-        <div className={cn("text-3xl", className)}>
+        <div className={cn("text-2xl", className)}>
           {formattedPrice}
         </div>
       </div>

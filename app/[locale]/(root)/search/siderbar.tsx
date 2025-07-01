@@ -37,17 +37,17 @@ export default function Sidebar() {
   const [tagsList, setTagsList] = useState<string[]>([]);
 
   const getPriceLabel = (priceValue: string) => {
-  const [min, max] = priceValue.split("-").map(Number);
+    const [min, max] = priceValue.split("-").map(Number);
 
-  if (currency === "VND") {
-    const formatter = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", maximumFractionDigits: 0 });
-    return `${formatter.format(min * 25000)} - ${formatter.format(max * 25000)}`;
-  }
+    if (currency === "VND") {
+      const formatter = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", maximumFractionDigits: 0 });
+      return `${formatter.format(min * 25000)} - ${formatter.format(max * 25000)}`;
+    }
 
-  // Mặc định USD
-  const formatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
-  return `${formatter.format(min)} - ${formatter.format(max)}`;
-};
+    // Mặc định USD
+    const formatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+    return `${formatter.format(min)} - ${formatter.format(max)}`;
+  };
 
   const params = Object.fromEntries(searchParams.entries());
   const {

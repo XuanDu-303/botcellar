@@ -41,8 +41,11 @@ export default function LanguageSwitcher() {
           <span className="text-xl pb-2">
             {locales.find((l) => l.code === locale)?.icon}
           </span>
-          <span className="text-xs pt-1">
-            ⁄ {availableCurrencies.find(c => c.code === currency)?.symbol || currency}
+          <span className="text-xs font-semibold pt-1">
+            ⁄
+          </span>
+          <span className="text-xs pt-2">
+            {availableCurrencies.find(c => c.code === currency)?.symbol || currency}
           </span>
         </div>
           <ChevronDownIcon />

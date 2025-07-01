@@ -21,6 +21,7 @@ const sortOrders = [
 
 export default function SearchPageClient() {
   const t = useTranslations("Search");
+  const t2 = useTranslations("SidebarSearch");
   const searchParams = useSearchParams();
   const [productsData, setProductsData] = useState<{
     products: IProduct[];
@@ -54,7 +55,7 @@ export default function SearchPageClient() {
 
   const filters: string[] = [];
   if (q !== "all" && q !== "") filters.push(`${q}`);
-  if (category !== "all" && category !== "") filters.push(`${t("Category")}: ${category}`);
+  if (category !== "all" && category !== "") filters.push(`${t("Category")}: ${t2(category)}`);
   if (selectedTags.length > 0) filters.push(`${t("Tag")}: ${selectedTags.join(", ")}`);
   if (price !== "all") filters.push(`${t("Price")}: ${price}`);
   if (rating !== "all") filters.push(`${t("Rating")}: ${rating} ${t("& Up")}`);

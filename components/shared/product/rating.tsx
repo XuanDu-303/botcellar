@@ -3,7 +3,7 @@ import { Star } from 'lucide-react'
 
 export default function Rating({
   rating = 0,
-  size = 6,
+  size = 5,
 }: {
   rating: number
   size?: number

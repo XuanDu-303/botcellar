@@ -8,7 +8,7 @@ const localesRegex = i18n.locales.map((l) => l.code).join('|')
 const isNotInPaths = (s: string) =>
   !new RegExp(
     `^(/(${localesRegex}))?` + 
-      `(/$|/cart$|/checkout(/.*)?$|/sign-in(/.*)?$|/sign-up(/.*)?$|/forgot-password(/.*)?$|/reset-password(/.*)?$|/order(/.*)?$|/account(/.*)?$|/admin(/.*)?$|/page(/.*)?$)`
+      `($|/$|/cart$|/checkout(/.*)?$|/sign-in(/.*)?$|/sign-up(/.*)?$|/forgot-password(/.*)?$|/reset-password(/.*)?$|/order(/.*)?$|/account(/.*)?$|/admin(/.*)?$|/page(/.*)?$)`
   ).test(s);
 
 function useCartSidebar() {

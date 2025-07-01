@@ -53,7 +53,7 @@ const ProductCard = ({
       <p className="font-bold">{product.brand}</p>
       <Link
         href={`/product/${product.slug}`}
-        className="overflow-hidden text-ellipsis"
+        className="overflow-hidden text-ellipsis text-sm"
         style={{
           display: "-webkit-box",
           WebkitLineClamp: 3,
@@ -66,7 +66,7 @@ const ProductCard = ({
         {hideBorder ? (
           <>
             <Rating rating={product.avgRating} />
-            <span>({formatNumber(product.numReviews)})</span>
+            <span className="text-sm">({formatNumber(product.numReviews)})</span>
           </>
         ) : (
           <RatingSummary
