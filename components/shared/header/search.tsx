@@ -1,12 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { SearchIcon } from 'lucide-react'
+
 import { Input } from '@/components/ui/input'
-import Image from "next/image";
 import {
   Select,
   SelectContent,
@@ -15,8 +16,13 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
+import { useTranslations } from 'next-intl'
+import { useLocale } from 'next-intl'
+import { getDirection } from '@/i18n-config'
+
 type Props = {
   categories: string[]
+  siteName: string
 }
 
 type SearchResult = {
@@ -26,19 +32,22 @@ type SearchResult = {
   images: string[]
 }
 
-export default function Search({ categories }: Props) {
+export default function Search({ categories, siteName }: Props) {
   const [isFocused, setIsFocused] = useState(false)
-  const router = useRouter()
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<SearchResult[]>([])
   const debounceRef = useRef<NodeJS.Timeout | null>(null)
+
+  const router = useRouter()
+  const t = useTranslations('Header')
+  const locale = useLocale()
+  const direction = getDirection(locale)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const params = new URLSearchParams(formData as any)
     router.push(`/search?${params.toString()}`)
-    
     setQuery('')
     setResults([])
   }
@@ -66,7 +75,7 @@ export default function Search({ categories }: Props) {
       }
     }, 500)
   }
-  console.log('Search results:', results)
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -74,11 +83,16 @@ export default function Search({ categories }: Props) {
     >
       {/* Category select */}
       <Select name="category">
-        <SelectTrigger className="w-auto min-h-[38px] rounded-none rounded-l-md !bg-muted/90 text-foreground focus:outline-none focus:ring-0 border border-r-0 border-muted-foreground group-focus-within:border-y-primary group-focus-within:border-l-primary">
-          <SelectValue placeholder="All" />
+        <SelectTrigger
+          className={`
+            w-auto min-h-[38px] rounded-none rounded-l-md !bg-muted/90 text-foreground focus:outline-none focus:ring-0 border border-r-0 border-muted-foreground group-focus-within:border-y-primary group-focus-within:border-l-primary
+            ${direction === 'rtl' ? 'rtl:rounded-r-md rtl:rounded-l-none' : ''}
+          `}
+        >
+          <SelectValue placeholder={t('All')} />
         </SelectTrigger>
         <SelectContent position="popper" className="bg-popover text-foreground border border-border shadow-md">
-          <SelectItem value="all">All</SelectItem>
+          <SelectItem value="all">{t('All')}</SelectItem>
           {categories.map((category) => (
             <SelectItem key={category} value={category}>
               {category}
@@ -95,8 +109,8 @@ export default function Search({ categories }: Props) {
           value={query}
           onChange={handleChange}
           onFocus={() => setIsFocused(true)}
-          onBlur={() => setTimeout(() => setIsFocused(false), 150)} // delay để kịp click link
-          placeholder="Search products"
+          onBlur={() => setTimeout(() => setIsFocused(false), 150)}
+          placeholder={t('Search Site', { name: siteName })}
           autoComplete="off"
           className="w-full min-h-[38px] bg-muted text-foreground text-base rounded-none border border-x-0 border-muted-foreground focus:!outline-none focus:!ring-0 focus:border-x-transparent group-focus-within:!border-y-primary shadow-none appearance-none"
         />
@@ -112,7 +126,7 @@ export default function Search({ categories }: Props) {
                 >
                   <div className="relative w-8 h-8 flex-shrink-0">
                     <Image
-                      src={product?.images?.[0] || '/placeholder.svg'}
+                      src={product.images?.[0] || '/placeholder.svg'}
                       alt={product.name}
                       fill
                       className="object-cover rounded"

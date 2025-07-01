@@ -1,78 +1,99 @@
-import useCartStore from "@/hooks/use-cart-store";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { Button, buttonVariants } from "../ui/button";
-import { Separator } from "../ui/separator";
-import { ScrollArea } from "../ui/scroll-area";
-import Image from "next/image";
-import { TrashIcon, PlusIcon, MinusIcon} from "lucide-react";
-import ProductPrice from "./product/product-price";
-import { FREE_SHIPPING_MIN_PRICE } from "@/lib/constants";
-import Loading from "./loading";
+'use client'
+
+import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { TrashIcon, PlusIcon, MinusIcon } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
+
+import useCartStore from '@/hooks/use-cart-store'
+import useSettingStore from '@/hooks/use-setting-store'
+import { getDirection } from '@/i18n-config'
+import { cn } from '@/lib/utils'
+import ProductPrice from './product/product-price'
+import Loading from './loading'
+import { Button, buttonVariants } from '../ui/button'
+import { Separator } from '../ui/separator'
+import { ScrollArea } from '../ui/scroll-area'
 
 export default function CartSidebar() {
   const {
     cart: { items, itemsPrice },
     updateItem,
     removeItem,
-  } = useCartStore();
+  } = useCartStore()
 
-  const [loading, setLoading] = useState(true);
-  const [loadingItemId, setLoadingItemId] = useState<string | null>(null);
+  const {
+    setting: {
+      common: { freeShippingMinPrice },
+    },
+  } = useSettingStore()
+
+  const t = useTranslations('Cart')
+  const locale = useLocale()
+
+  const [loading, setLoading] = useState(true)
+  const [loadingItemId, setLoadingItemId] = useState<string | null>(null)
 
   useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 1000); // giả lập delay
-    return () => clearTimeout(timeout);
-  }, []);
+    const timeout = setTimeout(() => setLoading(false), 500)
+    return () => clearTimeout(timeout)
+  }, [])
 
   return (
-    <div className="min-w-34 overflow-y-auto">
-      <div className="fixed border-l h-full w-34 bg-background">
-        <div className="p-2 h-full w-full flex flex-col gap-2 justify-start items-center">
+    <div className="w-32 overflow-y-auto">
+      <div
+        className={cn(
+          'fixed h-full w-32 bg-background',
+          getDirection(locale) === 'rtl' ? 'border-r' : 'border-l'
+        )}
+      >
+        <div className="p-2 h-full flex flex-col gap-2 justify-center items-center">
+          {/* Subtotal */}
           <div className="text-center space-y-2">
-            <div>Subtotal</div>
+            <div>{t('Subtotal')}</div>
             <div className="font-bold">
               <ProductPrice price={itemsPrice} plain />
             </div>
-            {itemsPrice > FREE_SHIPPING_MIN_PRICE && (
-              <div className="text-center text-xs">
-                Your order qualifies for FREE Shipping
+            {itemsPrice > freeShippingMinPrice && (
+              <div className="text-xs text-center">
+                {t('Your order qualifies for FREE Shipping')}
               </div>
             )}
 
             <Link
-              className={cn(
-                buttonVariants({ variant: "outline" }),
-                "rounded-full hover:no-underline w-full"
-              )}
               href="/cart"
+              className={cn(
+                buttonVariants({ variant: 'outline' }),
+                'rounded-full hover:no-underline w-full'
+              )}
             >
-              Go to Cart
+              {t('Go to Cart')}
             </Link>
           </div>
-            <Separator className="my-1" />
+
+          <Separator className="my-1" />
 
           <ScrollArea className="flex-1 w-full px-1 max-h-[72vh]">
             {loading
-              ? Array.from({ length: 2 }).map((_, i) => (
-                  <CartItemSkeleton key={i} />
-                ))
+              ? Array.from({ length: 2 }).map((_, i) => <CartItemSkeleton key={i} />)
               : items.map((item) => (
-                  <div key={item.cartItemId}>
+                  <div key={item.cartItemId} className="mb-2">
+                    {/* Image */}
                     <Link href={`/product/${item.slug}`}>
                       <div className="relative h-24">
                         <Image
                           src={item.image}
                           alt={item.name}
                           fill
-                          unoptimized 
+                          unoptimized
                           sizes="20vw"
                           className="object-contain"
                         />
                       </div>
                     </Link>
 
+                    {/* Price */}
                     <div className="text-sm text-center py-1 font-bold">
                       <ProductPrice price={item.price} plain />
                     </div>
@@ -84,48 +105,45 @@ export default function CartSidebar() {
                           onClick={() => removeItem(item)}
                           variant="ghost"
                           size="icon"
-                          className="w-7 h-7 cursor-pointer rounded-full text-foreground font-bold"
+                          className="w-7 h-7 rounded-full text-foreground font-bold"
                         >
                           <TrashIcon className="w-4 h-4" />
                         </Button>
                       ) : (
                         <Button
                           onClick={async () => {
-                            setLoadingItemId(item.cartItemId); // set item đang loading
-                            await updateItem(item, item.quantity - 1);
-                            setLoadingItemId(null); // reset
+                            setLoadingItemId(item.cartItemId)
+                            await updateItem(item, item.quantity - 1)
+                            setLoadingItemId(null)
                           }}
                           variant="ghost"
                           size="icon"
-                          className="w-7 h-7 cursor-pointer rounded-full text-foreground font-bold"
+                          className="w-7 h-7 rounded-full text-foreground font-bold"
                         >
-                          <MinusIcon />
+                          <MinusIcon className="w-4 h-4" />
                         </Button>
                       )}
 
                       <span className="w-6 text-center text-sm text-foreground font-bold">
-                        {loadingItemId === item.cartItemId ? (
-                          <Loading />
-                        ) : (
-                          item.quantity
-                        )}
+                        {loadingItemId === item.cartItemId ? <Loading /> : item.quantity}
                       </span>
 
                       <Button
                         onClick={async () => {
                           if (item.quantity < item.countInStock) {
-                            setLoadingItemId(item.cartItemId); // set item đang loading
-                            await updateItem(item, item.quantity + 1);
-                            setLoadingItemId(null); // reset
+                            setLoadingItemId(item.cartItemId)
+                            await updateItem(item, item.quantity + 1)
+                            setLoadingItemId(null)
                           }
                         }}
                         variant="ghost"
                         size="icon"
-                        className="w-7 h-7 cursor-pointer rounded-full text-foreground font-bold"
+                        className="w-7 h-7 rounded-full text-foreground font-bold"
                       >
-                        <PlusIcon />
+                        <PlusIcon className="w-4 h-4" />
                       </Button>
                     </div>
+
                     <Separator className="my-3" />
                   </div>
                 ))}
@@ -133,7 +151,7 @@ export default function CartSidebar() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function CartItemSkeleton() {
@@ -141,9 +159,8 @@ function CartItemSkeleton() {
     <div className="animate-pulse space-y-2 p-2">
       <div className="relative h-24 w-full rounded bg-gray-200" />
       <div className="h-4 w-1/2 mx-auto bg-gray-200 rounded" />
-      <div className="flex items-center justify-between gap-2 border-2 mt-2 bg-gray-200 h-7 rounded-full">
-      </div>
+      <div className="flex items-center justify-between gap-2 border-2 mt-2 bg-gray-200 h-7 rounded-full" />
       <Separator />
     </div>
-  );
+  )
 }

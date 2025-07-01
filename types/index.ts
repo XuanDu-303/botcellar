@@ -12,6 +12,12 @@ import {
   ForgotPasswordSchema,
   ResetPasswordSchema,
   WebPageInputSchema,
+  CarouselSchema,
+  DeliveryDateSchema,
+  PaymentMethodSchema,
+  SettingInputSchema,
+  SiteCurrencySchema,
+  SiteLanguageSchema,
 } from "@/lib/validator";
 import { z } from "zod";
 
@@ -46,7 +52,8 @@ export type Data = {
   brands: Option[];
   sizes: Option[];
   tags: Option[];
-  webPages: IWebPageInput[]
+  webPages: IWebPageInput[];
+  settings: ISettingInput[]
 };
 
 
@@ -94,3 +101,14 @@ export type IUserName = z.infer<typeof UserNameSchema>
 export type IForgotPassword = z.infer<typeof ForgotPasswordSchema>
 export type IResetPassword = z.infer<typeof ResetPasswordSchema>
 export type IWebPageInput = z.infer<typeof WebPageInputSchema>
+
+// setting
+export type ICarousel = z.infer<typeof CarouselSchema>
+export type ISettingInput = z.infer<typeof SettingInputSchema>
+export type ClientSetting = ISettingInput & {
+  currency: string
+}
+export type SiteLanguage = z.infer<typeof SiteLanguageSchema>
+export type SiteCurrency = z.infer<typeof SiteCurrencySchema>
+export type PaymentMethod = z.infer<typeof PaymentMethodSchema>
+export type DeliveryDate = z.infer<typeof DeliveryDateSchema>

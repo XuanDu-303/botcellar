@@ -6,6 +6,7 @@ import React from 'react'
 import { formUrlQuery } from '@/lib/utils'
 
 import { Button } from '../ui/button'
+import { useTranslations } from 'next-intl'
 
 type PaginationProps = {
   page: number | string
@@ -14,6 +15,7 @@ type PaginationProps = {
 }
 
 const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
+  const t = useTranslations('Search')
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -37,7 +39,7 @@ const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
         onClick={() => onClick('prev')}
         disabled={Number(page) <= 1}
       >
-        <ChevronLeft className="h-4 w-4" /> Previous
+        <ChevronLeft className="h-4 w-4" /> {t('Previous')}
       </Button>
       <Button
         size='lg'
@@ -46,7 +48,7 @@ const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
         onClick={() => onClick('next')}
         disabled={Number(page) >= totalPages}
       >
-        Next <ChevronRight className="h-4 w-4" />
+        {t('Next')} <ChevronRight className="h-4 w-4" />
       </Button>
     </div>
   )

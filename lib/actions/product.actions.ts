@@ -2,7 +2,7 @@
 
 import { connectToDatabase } from "@/lib/db";
 import Product, { IProduct } from "@/lib/db/models/product.model";
-import { PAGE_SIZE } from "../constants";
+import { getSetting } from './setting.actions'
 import { revalidatePath } from 'next/cache'
 import { formatError } from '../utils'
 import { ProductInputSchema, ProductUpdateSchema } from '../validator'
@@ -74,7 +74,7 @@ export async function getProductBySlug(slug: string) {
 export async function getRelatedProductsByCategory({
   category,
   productId,
-  limit = PAGE_SIZE,
+  limit,
   page = 1,
 }: {
   category: string;
@@ -82,8 +82,12 @@ export async function getRelatedProductsByCategory({
   limit?: number;
   page: number;
 }) {
-  await connectToDatabase();
-  const skipAmount = (Number(page) - 1) * limit;
+  await connectToDatabase();  
+  const {
+    common: { pageSize },
+  } = await getSetting()
+  limit  = limit || pageSize;
+  const skipAmount = (Number(page) - 1) * limit ;
   const conditions = {
     isPublished: true,
     category,
@@ -96,7 +100,7 @@ export async function getRelatedProductsByCategory({
   const productsCount = await Product.countDocuments(conditions);
   return {
     data: JSON.parse(JSON.stringify(products)) as IProduct[],
-    totalPages: Math.ceil(productsCount / limit),
+    totalPages: Math.ceil(productsCount / limit ),
   };
 }
 
@@ -108,7 +112,7 @@ export async function searchProducts({
   rating,
   sort,
   page = 1,
-  limit = PAGE_SIZE,
+  limit,
 }: {
   query: string
   category: string
@@ -119,6 +123,12 @@ export async function searchProducts({
   page?: number
   limit?: number
 }) {
+  const {
+    common: { pageSize },
+  } = await getSetting();
+
+  limit = limit || pageSize;
+
   const must: Record<string, unknown>[] = [{ term: { isPublished: true } }]
 
   if (query && query !== 'all') {
@@ -237,7 +247,11 @@ export async function getAllProductsForAdmin({
 }) {
   await connectToDatabase()
 
-  const pageSize = limit || PAGE_SIZE
+  const {
+    common: { pageSize },
+  } = await getSetting();
+
+  limit  = limit || pageSize;
   const queryFilter =
     query && query !== 'all'
       ? {
@@ -262,8 +276,8 @@ export async function getAllProductsForAdmin({
     ...queryFilter,
   })
     .sort(order)
-    .skip(pageSize * (Number(page) - 1))
-    .limit(pageSize)
+    .skip(limit * (Number(page) - 1))
+    .limit(limit)
     .lean()
 
   const countProducts = await Product.countDocuments({

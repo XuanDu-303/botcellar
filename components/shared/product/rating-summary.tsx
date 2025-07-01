@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronDownIcon } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
+import { useTranslations } from 'next-intl'
 
 import {
   Tooltip,
@@ -32,7 +33,7 @@ export default function RatingSummary({
   ratingDistribution = [],
 }: RatingSummaryProps) {
   const [loading, setLoading] = useState(false);
-
+  const t = useTranslations("Product")
   const [animatedPercentages, setAnimatedPercentages] = useState<number[]>([]);
 
   useEffect(() => {
@@ -54,13 +55,18 @@ export default function RatingSummary({
       <div className="flex flex-wrap items-center gap-1 cursor-help text-foreground">
         <Rating rating={avgRating} size={5} />
         <span className="text-lg font-bold">
-          {avgRating.toFixed(1)} out of 5
+          {t('avgRating out of 5', {
+            avgRating: avgRating.toFixed(1),
+          })}
         </span>
       </div>
       <div
         className={`${!asTooltip ? "text-[15px] text-muted-foreground" : "text-base"}`}
       >
-        {numReviews} {`${!asTooltip ? "global" : ""}`} ratings
+        {t("numReviews ratings", {
+          numReviews,
+          scope: !asTooltip ? t("global") : ""
+        })}
       </div>
       <div className="space-y-3">
         {ratingDistribution
@@ -69,7 +75,7 @@ export default function RatingSummary({
             const percentage = animatedPercentages[index] || 0;
             return (
               <div key={rating} className="flex gap-2 items-center">
-                <div className="text-sm whitespace-nowrap">{rating} star</div>
+                <div className="text-sm whitespace-nowrap">{t('rating star', { rating })}</div>
                 <Progress
                   value={percentage}
                   className="h-4 rounded-[4px] transition-[width] ease-in-out"
@@ -126,7 +132,7 @@ export default function RatingSummary({
                     className="text-center py-4 no-underline highlight-link"
                     href="#reviews"
                   >
-                    See customer reviews
+                    {t('See customer reviews')}
                   </Link>
                 </>
               )}

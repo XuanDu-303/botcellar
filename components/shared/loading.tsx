@@ -1,10 +1,12 @@
 import { cn } from "@/lib/utils";
+import { getTranslations } from 'next-intl/server'
 
 type LoadingProps = {
   className?: string;
 };
 
-export default function Loading({ className }: LoadingProps) {
+export default async function Loading({ className }: LoadingProps) {
+  const t = await getTranslations('Loading')
   return (
     <div className={`flex items-center justify-center w-full h-full`}>
       <div role="status">
@@ -24,7 +26,7 @@ export default function Loading({ className }: LoadingProps) {
             fill="currentFill"
           />
         </svg>
-        <span className="sr-only">Loading...</span>
+        <span className="sr-only">{t('Loading')}</span>
       </div>
     </div>
   );

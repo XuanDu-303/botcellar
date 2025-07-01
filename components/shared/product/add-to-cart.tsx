@@ -14,6 +14,7 @@ import { OrderItem } from "@/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import Loading from "../loading";
 
 export default function AddToCart({
@@ -23,19 +24,17 @@ export default function AddToCart({
   item: OrderItem;
   minimal?: boolean;
 }) {
+  const t = useTranslations("Product");
   const router = useRouter();
   const { addItem } = useCartStore();
   const [quantity, setQuantity] = useState(1);
-
-  const [pendingTarget, setPendingTarget] = useState<
-    "cart" | "checkout" | null
-  >(null);
+  const [pendingTarget, setPendingTarget] = useState<"cart" | "checkout" | null>(null);
 
   const handleAdd = async (goTo: "cart" | "checkout" | null) => {
     try {
       setPendingTarget(goTo);
       const itemId = await addItem(item, quantity);
-      toast.success("Added to Cart");
+      toast.success(t("Added to Cart"));
 
       if (goTo === "cart") {
         router.push(`/cart/${itemId}`);
@@ -43,7 +42,7 @@ export default function AddToCart({
         router.push("/checkout");
       }
     } catch (error: any) {
-      toast.error(error.message || "Something went wrong");
+      toast.error(error.message || t("Something went wrong"));
     } finally {
       setPendingTarget(null);
     }
@@ -55,18 +54,18 @@ export default function AddToCart({
       onClick={() => {
         try {
           addItem(item, 1);
-          toast.success("Added to Cart", {
+          toast.success(t("Added to Cart"), {
             action: {
-              label: "Go to Cart",
+              label: t("Go to Cart"),
               onClick: () => router.push("/cart"),
             },
           });
         } catch (error: any) {
-          toast.error(error.message || "Something went wrong");
+          toast.error(error.message || t("Something went wrong"));
         }
       }}
     >
-      Add to Cart
+      {t("Add to Cart")}
     </Button>
   ) : (
     <div className="w-full space-y-2">
@@ -75,7 +74,7 @@ export default function AddToCart({
         onValueChange={(i) => setQuantity(Number(i))}
       >
         <SelectTrigger className="w-full">
-          <SelectValue>Quantity: {quantity}</SelectValue>
+          <SelectValue>{t("Quantity")}: {quantity}</SelectValue>
         </SelectTrigger>
         <SelectContent position="popper" className="w-full">
           {Array.from({ length: item.countInStock }).map((_, i) => (
@@ -92,7 +91,7 @@ export default function AddToCart({
         disabled={pendingTarget === "cart"}
         onClick={() => handleAdd("cart")}
       >
-        {pendingTarget === "cart" ? <Loading /> : "Add to Cart"}
+        {pendingTarget === "cart" ? <Loading /> : t("Add to Cart")}
       </Button>
       <Button
         variant="secondary"
@@ -101,7 +100,7 @@ export default function AddToCart({
         disabled={pendingTarget === "checkout"}
         onClick={() => handleAdd("checkout")}
       >
-        {pendingTarget === "checkout" ? <Loading /> : "Buy Now"}
+        {pendingTarget === "checkout" ? <Loading /> : t("Buy Now")}
       </Button>
     </div>
   );

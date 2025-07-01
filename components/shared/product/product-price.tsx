@@ -1,5 +1,8 @@
 "use client";
-import { cn, formatCurrency } from "@/lib/utils";
+
+import { cn, round2 } from "@/lib/utils";
+import useSettingStore from "@/hooks/use-setting-store";
+import { useFormatter, useTranslations } from "next-intl";
 
 const ProductPrice = ({
   price,
@@ -18,61 +21,86 @@ const ProductPrice = ({
   plain?: boolean;
   hideDiscount?: boolean;
 }) => {
+  const { getCurrency } = useSettingStore();
+  const currency = getCurrency();
+  const t = useTranslations("Product");
+  const format = useFormatter();
+
+  const convertedPrice = round2(currency.convertRate * price);
+  const convertedListPrice = round2(currency.convertRate * listPrice);
+
   const discountPercent =
-    !hideDiscount &&
-    (listPrice > 0 ? Math.round(100 - (price / listPrice) * 100) : 0);
-  const stringValue = price.toString();
-  const [intValue, floatValue] = stringValue.includes(".")
-    ? stringValue.split(".")
-    : [stringValue, ""];
+    !hideDiscount && convertedListPrice > 0
+      ? Math.round(100 - (convertedPrice / convertedListPrice) * 100)
+      : 0;
 
-  return plain ? (
-    formatCurrency(price)
-  ) : listPrice == 0 ? (
-    <div className={cn("text-3xl", className)}>
-      <span className="text-xs align-super">$</span>
-      {intValue}
-      <span className="text-xs align-super">{floatValue}</span>
-    </div>
-  ) : isDeal ? (
-    <div className="space-y-2">
-      <div className="flex items-center gap-2">
-        {!hideDiscount && (
-          <span className="bg-red-700 rounded-sm p-1 text-white text-sm font-semibold">
-            {discountPercent}% Off
+  const formattedPrice = format.number(convertedPrice, {
+    style: "currency",
+    currency: currency.code,
+    currencyDisplay: "narrowSymbol",
+  });
+
+  const formattedListPrice = format.number(convertedListPrice, {
+    style: "currency",
+    currency: currency.code,
+    currencyDisplay: "narrowSymbol",
+  });
+
+  if (plain) {
+    return formattedPrice;
+  }
+
+  if (convertedListPrice === 0) {
+    return (
+      <div className={cn("text-3xl", className)}>
+        {formattedPrice}
+      </div>
+    );
+  }
+
+  if (isDeal) {
+    return (
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          {!hideDiscount && (
+            <span className="bg-red-700 rounded-sm p-1 text-white text-sm font-semibold">
+              {discountPercent}% {t("Off")}
+            </span>
+          )}
+          <span className="text-red-700 text-xs font-bold">
+            {t("Limited time deal")}
           </span>
-        )}
+        </div>
+        <div className={`flex ${forListing ? "" : ""} items-center gap-2`}>
+          <div className={cn("text-3xl", className)}>
+            {formattedPrice}
+          </div>
+          <div className="text-muted-foreground text-xs py-2">
+            {t("Was")}:{" "}
+            <span className="line-through">
+              {formattedListPrice}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-        <span className="text-red-700 text-xs font-bold">
-          Limited time deal
-        </span>
-      </div>
-      <div className={`flex ${forListing && ""} items-center gap-2`}>
-        <div className={cn("text-3xl", className)}>
-          <span className="text-xs align-super">$</span>
-          {intValue}
-          <span className="text-xs align-super">{floatValue}</span>
-        </div>
-        <div className="text-muted-foreground text-xs py-2">
-          Was: <span className="line-through">{formatCurrency(listPrice)}</span>
-        </div>
-      </div>
-    </div>
-  ) : (
-    <div className="">
+  return (
+    <div>
       <div className="flex gap-3">
         {!hideDiscount && (
           <div className="text-3xl text-orange-700">-{discountPercent}%</div>
         )}
         <div className={cn("text-3xl", className)}>
-          <span className="text-xs align-super">$</span>
-          {intValue}
-          <span className="text-xs align-super">{floatValue}</span>
+          {formattedPrice}
         </div>
       </div>
       <div className="text-muted-foreground text-xs py-2">
-        List price:{" "}
-        <span className="line-through">{formatCurrency(listPrice)}</span>
+        {t("List price")}:{" "}
+        <span className="line-through">
+          {formattedListPrice}
+        </span>
       </div>
     </div>
   );
