@@ -21,7 +21,7 @@ const Menu = ({ forAdmin = false }: { forAdmin?: boolean }) => {
   return (
     <div className="flex justify-end">
       {/* Desktop */}
-      <nav className="hidden md:flex gap-3 w-full items-center justify-end">
+      <nav className="hidden md:flex gap-2 w-full items-center justify-end">
         <ThemeSwitcher />
         <LanguageSwitcher />
         <UserButton />

@@ -105,7 +105,8 @@
     "Loading": "Loading...",
     "Rating": "Rating",
     "No reviews yet": "No reviews yet",
-    "Submitting": "Submitting..."
+    "Submitting": "Submitting...",
+    "Reviewed on": "Reviewed on"
   },
   "Cart": {
     "Shopping Cart": "Shopping Cart",
@@ -129,7 +130,8 @@
     "Proceed to Checkout": "Proceed to Checkout",
     "Delete": "Delete",
     "Update": "Update",
-    "Checkout": "Checkout"
+    "Checkout": "Checkout",
+    "Cart Subtotal": "Cart Subtotal"
   },
   "Search": {
     "for": "for",

@@ -87,16 +87,15 @@ export default function CartAddItem({ itemId }: { itemId: string }) {
                 )}
               </div>
               <div className='lg:border-l lg:border-muted lg:pl-3 flex flex-col items-center gap-3  '>
-                <div className='flex gap-3'>
-                  <span className='text-lg font-bold'>Cart Subtotal:</span>
+                <div className='flex items-end gap-3'>
+                  <span className='text-lg font-bold whitespace-nowrap'>{t('Cart Subtotal')}:</span>
                   <ProductPrice className='text-2xl' price={itemsPrice} />
                 </div>
                 <Link
                   href='/checkout'
                   className={cn(buttonVariants(), 'rounded-full w-full')}
                 >
-                  {t('Proceed to checkout')} (
-                  {items.reduce((a, c) => a + c.quantity, 0)} items)
+                  {t('Proceed to Checkout')} {items.reduce((a, c) => a + c.quantity, 0)} {t('items')}
                 </Link>
                 <Link
                   href='/cart'

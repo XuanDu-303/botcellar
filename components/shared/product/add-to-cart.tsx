@@ -57,7 +57,7 @@ export default function AddToCart({
           toast.success(t("Added to Cart"), {
             action: {
               label: t("Go to Cart"),
-              onClick: () => router.push("/cart"),
+              onClick: () => router.push("/cart/${itemId}"),
             },
           });
         } catch (error: any) {

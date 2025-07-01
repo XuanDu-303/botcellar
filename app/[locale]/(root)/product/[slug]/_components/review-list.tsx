@@ -38,7 +38,6 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
@@ -248,7 +247,14 @@ export default function ReviewList({
                                 >
                                   <FormControl>
                                     <SelectTrigger>
-                                      <SelectValue placeholder={t('Select a rating')} />
+                                      {field.value ? (
+                                        <div className="flex items-center gap-1">
+                                          {field.value}
+                                          <StarIcon className="h-4 w-4 text-primary" />
+                                        </div>
+                                      ) : (
+                                        <StarIcon className="h-4 w-4 text-muted-foreground" />
+                                      )}
                                     </SelectTrigger>
                                   </FormControl>
                                   <SelectContent>
@@ -260,7 +266,7 @@ export default function ReviewList({
                                         >
                                           <div className="flex items-center gap-1">
                                             {index + 1}{" "}
-                                            <StarIcon className="h-4 w-4" />
+                                            <StarIcon className="h-4 w-4 text-primary" />
                                           </div>
                                         </SelectItem>
                                       )
@@ -328,7 +334,7 @@ export default function ReviewList({
                         <CircleUserRound className="h-[22px] w-[22px] text-muted-foreground" />
                       )}
                       <span className="text-sm">
-                        {review.user?.name ?? "Deleted User"}
+                        {review.user?.name ?? t('Deleted User')}
                       </span>
                     </div>
                     {review.isVerifiedPurchase && (
@@ -344,7 +350,7 @@ export default function ReviewList({
                     <div className="text-sm">{review.title}</div>
                   </CardTitle>
                   <CardDescription className="flex items-center">
-                    Reviewed on&nbsp;
+                    {t('Reviewed on')}&nbsp;
                     <Calendar className="mr-1 h-3 w-3" />
                     {review.createdAt.toString().substring(0, 10)}
                   </CardDescription>

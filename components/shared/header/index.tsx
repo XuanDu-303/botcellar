@@ -21,7 +21,7 @@ export default async function Header() {
     <header className="bg-black text-white">
       {/* Top bar */}
       <div className="px-2">
-        <div className="flex items-center justify-between">
+        <div className="flex gap-2 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
             <Link

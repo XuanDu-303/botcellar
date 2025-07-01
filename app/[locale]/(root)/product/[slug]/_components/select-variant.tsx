@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { IProduct } from '@/lib/db/models/product.model'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 export default function SelectVariant({
   product,
@@ -11,12 +12,12 @@ export default function SelectVariant({
   color: string
   size: string
 }) {
-
+ const t = useTranslations('Product')
   return (
     <>
       {(product.colors ?? []).length > 0 && (
         <div className='space-x-2 space-y-2'>
-          <div>Color:</div>
+          <div className="font-semibold">{t('Color')}</div>
           {(product.colors ?? []).map((x: string) => (
             <Button
               asChild
@@ -47,7 +48,7 @@ export default function SelectVariant({
       )}
       {(product.sizes ?? []).length > 0 && (
         <div className='mt-2 space-x-2 space-y-2'>
-          <div>Size:</div>
+          <div className="font-semibold">{t('Size')}</div>
           {(product.sizes ?? []).map((x: string) => (
             <Button
               asChild

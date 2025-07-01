@@ -50,26 +50,28 @@ export default function CartSidebar() {
       >
         <div className="p-2 h-full flex flex-col gap-2 justify-center items-center">
           {/* Subtotal */}
-          <div className="text-center space-y-2">
+          <div className="text-center text-sm space-y-1 pt-2">
             <div>{t('Subtotal')}</div>
             <div className="font-bold">
               <ProductPrice price={itemsPrice} plain />
             </div>
-            {itemsPrice > freeShippingMinPrice && (
-              <div className="text-xs text-center">
-                {t('Your order qualifies for FREE Shipping')}
-              </div>
-            )}
-
-            <Link
-              href="/cart"
-              className={cn(
-                buttonVariants({ variant: 'outline' }),
-                'rounded-full hover:no-underline w-full'
+            <div className="space-y-2">
+              {itemsPrice > freeShippingMinPrice && (
+                <div className="text-xs text-center">
+                  {t('Your order qualifies for FREE Shipping')}
+                </div>
               )}
-            >
-              {t('Go to Cart')}
-            </Link>
+
+              <Link
+                href="/cart"
+                className={cn(
+                  buttonVariants({ variant: 'outline' }),
+                  'rounded-full text-xs hover:no-underline w-full'
+                )}
+              >
+                {t('Go to Cart')}
+              </Link>
+            </div>
           </div>
 
           <Separator className="my-1" />

@@ -6,7 +6,10 @@ import { i18n } from '@/i18n-config'
 const localesRegex = i18n.locales.map((l) => l.code).join('|')
 
 const isNotInPaths = (s: string) =>
-  !new RegExp(`^/$|^/cart$|^/checkout(/.*)?$|^/sign-in(/.*)?$|^/sign-up(/.*)?$|^/forgot-password(/.*)?$|^/reset-password(/.*)?$|^/order(/.*)?$|^/account(/.*)?$|^/admin(/.*)?$|^/page(/.*)?$|^/(${localesRegex})(/.*)?$`).test(s)
+  !new RegExp(
+    `^(/(${localesRegex}))?` + 
+      `(/$|/cart$|/checkout(/.*)?$|/sign-in(/.*)?$|/sign-up(/.*)?$|/forgot-password(/.*)?$|/reset-password(/.*)?$|/order(/.*)?$|/account(/.*)?$|/admin(/.*)?$|/page(/.*)?$)`
+  ).test(s);
 
 function useCartSidebar() {
   const {

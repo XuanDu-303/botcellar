@@ -65,9 +65,6 @@ export default async function ProductDetails(props: {
 
           <div className="flex w-full flex-col gap-2 md:p-5 col-span-2">
             <div className="flex flex-col gap-3">
-              <p className="p-medium-16 rounded-full bg-grey-500/10   text-grey-500">
-                {t('Brand')} {product.brand} {product.category}
-              </p>
               <h1 className="font-bold text-lg lg:text-xl">{product.name}</h1>
               <div className="flex items-center gap-2">
                 <RatingSummary
@@ -96,9 +93,13 @@ export default async function ProductDetails(props: {
                 color={color || (product.colors ?? [])[0]}
               />
             </div>
+            
+            <p className="p-medium-16 rounded-full bg-grey-500/10 text-grey-500">
+              <span className="font-semibold">{t('Brand')}</span> {product.brand} {product.category}
+            </p>
             <Separator className="my-2" />
             <div className="flex flex-col gap-2">
-              <p className="p-bold-20 text-grey-600">{t('Description')}</p>
+              <p className="p-bold-20 text-grey-600 font-semibold">{t('Description')}</p>
               <p className="p-medium-16 lg:p-regular-18">
                 {product.description}
               </p>

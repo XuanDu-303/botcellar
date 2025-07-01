@@ -31,7 +31,7 @@
     "About Us": "Về chúng tôi",
     "Help": "Trợ giúp",
     "Site Menu": "Menu trang",
-    "Subtotal": "Tạm tính",
+    "Subtotal": "Tổng cộng",
     "Go to cart": "Đến giỏ hàng",
     "Language": "Ngôn ngữ",
     "Currency": "Tiền tệ",
@@ -105,7 +105,8 @@
     "Loading": "Đang tải...",
     "Rating": "Đánh giá",
     "No reviews yet": "Chưa có đánh giá",
-    "Submitting": "Đang gửi..."
+    "Submitting": "Đang gửi...",
+    "Reviewed on": "Đánh giá vào"
   },
   "Cart": {
     "Shopping Cart": "Giỏ hàng",
@@ -123,13 +124,14 @@
     "Go to Cart": "Đến giỏ hàng",
     "Choose this option at checkout": "Chọn tùy chọn này khi thanh toán.",
     "Items": "Sản phẩm",
-    "Subtotal": "Tạm tính",
+    "Subtotal": "Tổng cộng",
     "Shipping": "Vận chuyển",
     "Tax": "Thuế",
     "Proceed to Checkout": "Tiến hành thanh toán",
     "Delete": "Xóa",
     "Update": "Cập nhật",
-    "Checkout": "Thanh toán"
+    "Checkout": "Thanh toán",
+    "Cart Subtotal": "Tổng giỏ hàng"
   },
   "Search": {
     "for": "cho",
