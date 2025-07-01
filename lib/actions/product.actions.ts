@@ -104,6 +104,97 @@ export async function getRelatedProductsByCategory({
   };
 }
 
+// export async function searchProducts({
+//   query,
+//   category,
+//   tags,
+//   price,
+//   rating,
+//   sort,
+//   page = 1,
+//   limit,
+// }: {
+//   query: string
+//   category: string
+//   tags: string
+//   price?: string
+//   rating?: string
+//   sort?: string
+//   page?: number
+//   limit?: number
+// }) {
+//   const {
+//     common: { pageSize },
+//   } = await getSetting();
+
+//   limit = limit || pageSize;
+
+//   const must: Record<string, unknown>[] = [{ term: { isPublished: true } }]
+
+//   if (query && query !== 'all') {
+//     must.push({
+//       multi_match: {
+//         query,
+//         fields: ['name^3', 'description', 'category', 'tags', 'brand'],
+//         fuzziness: 'AUTO',
+//       },
+//     })
+//   }
+
+//   if (category && category !== 'all') {
+//     must.push({ term: { category } })
+//   }
+
+//   if (tags && tags !== 'all') {
+//     must.push({ terms: { tags: tags.split(',') } })
+//   }
+
+//   if (price && price !== 'all') {
+//     const [gte, lte] = price.split('-').map(Number)
+//     must.push({ range: { price: { gte, lte } } })
+//   }
+
+//   if (rating && rating !== 'all') {
+//     must.push({ range: { avgRating: { gte: Number(rating) } } })
+//   }
+
+//   let sortField: Record<string, 'asc' | 'desc'> = { createdAt: 'desc' }
+
+//   if (sort === 'best-selling') {
+//     sortField = { numSales: 'desc' }
+//   } else if (sort === 'price-low-to-high') {
+//     sortField = { price: 'asc' }
+//   } else if (sort === 'price-high-to-low') {
+//     sortField = { price: 'desc' }
+//   } else if (sort === 'avg-customer-review') {
+//     sortField = { avgRating: 'desc' }
+//   }
+
+//   const from = limit * (page - 1)
+
+//   const { hits } = await esClient.search<IProduct>({
+//     index: 'products',
+//     from,
+//     size: limit,
+//     query: { bool: { must } },
+//     sort: [sortField],
+//   })
+
+//   const products = hits.hits.map(({ _id, _source }) => ({
+//     ...(_source as IProduct),
+//     _id,
+//   })) as IProduct[]
+
+//   const total = typeof hits.total === 'number' ? hits.total : hits.total?.value || 0
+
+//   return {
+//     products,
+//     totalPages: Math.ceil(total / limit),
+//     totalProducts: total,
+//     from: from + 1,
+//     to: from + products.length,
+//   }
+// }
 export async function searchProducts({
   query,
   category,
@@ -129,7 +220,52 @@ export async function searchProducts({
 
   limit = limit || pageSize;
 
-  const must: Record<string, unknown>[] = [{ term: { isPublished: true } }]
+  try {
+    return await searchProductsElastic({
+      query,
+      category,
+      tags,
+      price,
+      rating,
+      sort,
+      page,
+      limit,
+    });
+  } catch (error) {
+    console.error('ElasticSearch error, fallback to MongoDB:', error);
+    return await searchProductsMongoFallback({
+      query,
+      category,
+      tags,
+      price,
+      rating,
+      sort,
+      page,
+      limit,
+    });
+  }
+}
+
+async function searchProductsElastic({
+  query,
+  category,
+  tags,
+  price,
+  rating,
+  sort,
+  page,
+  limit,
+}: {
+  query: string
+  category: string
+  tags: string
+  price?: string
+  rating?: string
+  sort?: string
+  page: number
+  limit: number
+}) {
+  const must: Record<string, unknown>[] = [{ term: { isPublished: true } }];
 
   if (query && query !== 'all') {
     must.push({
@@ -138,39 +274,39 @@ export async function searchProducts({
         fields: ['name^3', 'description', 'category', 'tags', 'brand'],
         fuzziness: 'AUTO',
       },
-    })
+    });
   }
 
   if (category && category !== 'all') {
-    must.push({ term: { category } })
+    must.push({ term: { category } });
   }
 
   if (tags && tags !== 'all') {
-    must.push({ terms: { tags: tags.split(',') } })
+    must.push({ terms: { tags: tags.split(',') } });
   }
 
   if (price && price !== 'all') {
-    const [gte, lte] = price.split('-').map(Number)
-    must.push({ range: { price: { gte, lte } } })
+    const [gte, lte] = price.split('-').map(Number);
+    must.push({ range: { price: { gte, lte } } });
   }
 
   if (rating && rating !== 'all') {
-    must.push({ range: { avgRating: { gte: Number(rating) } } })
+    must.push({ range: { avgRating: { gte: Number(rating) } } });
   }
 
-  let sortField: Record<string, 'asc' | 'desc'> = { createdAt: 'desc' }
+  let sortField: Record<string, 'asc' | 'desc'> = { createdAt: 'desc' };
 
   if (sort === 'best-selling') {
-    sortField = { numSales: 'desc' }
+    sortField = { numSales: 'desc' };
   } else if (sort === 'price-low-to-high') {
-    sortField = { price: 'asc' }
+    sortField = { price: 'asc' };
   } else if (sort === 'price-high-to-low') {
-    sortField = { price: 'desc' }
+    sortField = { price: 'desc' };
   } else if (sort === 'avg-customer-review') {
-    sortField = { avgRating: 'desc' }
+    sortField = { avgRating: 'desc' };
   }
 
-  const from = limit * (page - 1)
+  const from = limit * (page - 1);
 
   const { hits } = await esClient.search<IProduct>({
     index: 'products',
@@ -178,14 +314,14 @@ export async function searchProducts({
     size: limit,
     query: { bool: { must } },
     sort: [sortField],
-  })
+  });
 
   const products = hits.hits.map(({ _id, _source }) => ({
     ...(_source as IProduct),
     _id,
-  })) as IProduct[]
+  })) as IProduct[];
 
-  const total = typeof hits.total === 'number' ? hits.total : hits.total?.value || 0
+  const total = typeof hits.total === 'number' ? hits.total : hits.total?.value || 0;
 
   return {
     products,
@@ -193,7 +329,85 @@ export async function searchProducts({
     totalProducts: total,
     from: from + 1,
     to: from + products.length,
+  };
+}
+
+async function searchProductsMongoFallback({
+  query,
+  category,
+  tags,
+  price,
+  rating,
+  sort,
+  page,
+  limit,
+}: {
+  query: string
+  category: string
+  tags: string
+  price?: string
+  rating?: string
+  sort?: string
+  page: number
+  limit: number
+}) {
+  await connectToDatabase();
+
+  const conditions: Record<string, unknown> = { isPublished: true };
+
+  if (query && query !== 'all') {
+    const regex = new RegExp(query, 'i');
+    conditions.$or = [
+      { name: regex },
+      { description: regex },
+      { category: regex },
+      { tags: regex },
+      { brand: regex },
+    ];
   }
+
+  if (category && category !== 'all') {
+    conditions.category = category;
+  }
+
+  if (tags && tags !== 'all') {
+    conditions.tags = { $in: tags.split(',') };
+  }
+
+  if (price && price !== 'all') {
+    const [gte, lte] = price.split('-').map(Number);
+    conditions.price = { $gte: gte, $lte: lte };
+  }
+
+  if (rating && rating !== 'all') {
+    conditions.avgRating = { $gte: Number(rating) };
+  }
+
+  const sortOrder: Record<string, 1 | -1> =
+    sort === 'best-selling'
+      ? { numSales: -1 }
+      : sort === 'price-low-to-high'
+      ? { price: 1 }
+      : sort === 'price-high-to-low'
+      ? { price: -1 }
+      : sort === 'avg-customer-review'
+      ? { avgRating: -1 }
+      : { createdAt: -1 };
+
+  const skip = limit * (page - 1);
+
+  const [products, total] = await Promise.all([
+    Product.find(conditions).sort(sortOrder).skip(skip).limit(limit).lean({ virtuals: true }),
+    Product.countDocuments(conditions),
+  ]);
+
+  return {
+    products: JSON.parse(JSON.stringify(products)) as IProduct[],
+    totalPages: Math.ceil(total / limit),
+    totalProducts: total,
+    from: skip + 1,
+    to: skip + products.length,
+  };
 }
 
 export async function getAllPublishedProducts() {

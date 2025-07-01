@@ -36,14 +36,16 @@ export default function LanguageSwitcher() {
   };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="header-button h-[41px]">
+      <DropdownMenuTrigger className="flex items-center gap-1 header-button h-[41px]">
         <div className="flex items-center gap-1">
-          <span className="text-xl">
+          <span className="text-xl pb-2">
             {locales.find((l) => l.code === locale)?.icon}
           </span>
-          {locale.toUpperCase().slice(0, 2)}
-          <ChevronDownIcon />
+          <span className="text-xs pt-1">
+            ⁄ {availableCurrencies.find(c => c.code === currency)?.symbol || currency}
+          </span>
         </div>
+          <ChevronDownIcon />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>{t("Language")}</DropdownMenuLabel>

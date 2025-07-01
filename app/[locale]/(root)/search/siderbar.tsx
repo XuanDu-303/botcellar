@@ -3,16 +3,18 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import CollapsibleOnMobile from "@/components/shared/collapsible-on-mobile";
 import { getAllCategories, getAllTags } from "@/lib/actions/product.actions";
 import { getFilterUrl, toSlug } from "@/lib/utils";
 import Rating from "@/components/shared/product/rating";
+import useSettingStore from "@/hooks/use-setting-store";
 
 const prices = [
-  { name: "$1 to $20", value: "1-20" },
-  { name: "$21 to $50", value: "21-50" },
-  { name: "$51 to $1000", value: "51-1000" },
+  { value: "1-20" },
+  { value: "21-50" },
+  { value: "51-1000" },
 ];
 
 function toggleTag(currentTags: string[], tag: string) {
@@ -26,9 +28,26 @@ function toggleTag(currentTags: string[], tag: string) {
 }
 
 export default function Sidebar() {
+  const t = useTranslations("SidebarSearch");
+  const {
+    setting: { currency },
+  } = useSettingStore();
   const searchParams = useSearchParams();
   const [categories, setCategories] = useState<string[]>([]);
   const [tagsList, setTagsList] = useState<string[]>([]);
+
+  const getPriceLabel = (priceValue: string) => {
+  const [min, max] = priceValue.split("-").map(Number);
+
+  if (currency === "VND") {
+    const formatter = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", maximumFractionDigits: 0 });
+    return `${formatter.format(min * 25000)} - ${formatter.format(max * 25000)}`;
+  }
+
+  // Mặc định USD
+  const formatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+  return `${formatter.format(min)} - ${formatter.format(max)}`;
+};
 
   const params = Object.fromEntries(searchParams.entries());
   const {
@@ -53,18 +72,18 @@ export default function Sidebar() {
   }, []);
 
   return (
-    <CollapsibleOnMobile title="Filters">
+    <CollapsibleOnMobile title={t("Filters")}> 
       <div className="space-y-4">
         {/* Department */}
         <div>
-          <div className="font-bold my-[2px]">Department</div>
+          <div className="font-bold my-[2px]">{t("Department")}</div>
           <ul>
             <li>
               <Link
                 href={getFilterUrl({ category: "all", params })}
                 className={`hover:text-primary ${category === "all" ? "font-semibold" : ""}`}
               >
-                All
+                {t("All")}
               </Link>
             </li>
             {categories.map((c) => (
@@ -73,7 +92,7 @@ export default function Sidebar() {
                   href={getFilterUrl({ category: c, params })}
                   className={`hover:text-primary ${c === category ? "font-semibold" : ""}`}
                 >
-                  {c}
+                  {t(c)}
                 </Link>
               </li>
             ))}
@@ -82,14 +101,14 @@ export default function Sidebar() {
 
         {/* Price */}
         <div>
-          <div className="font-bold my-[2px]">Price</div>
+          <div className="font-bold my-[2px]">{t("Price")}</div>
           <ul>
             <li>
               <Link
                 href={getFilterUrl({ price: "all", params })}
                 className={`hover:text-primary ${price === "all" ? "font-semibold" : ""}`}
               >
-                All
+                {t("All")}
               </Link>
             </li>
             {prices.map((p) => (
@@ -98,7 +117,7 @@ export default function Sidebar() {
                   href={getFilterUrl({ price: p.value, params })}
                   className={`hover:text-primary ${price === p.value ? "font-semibold" : ""}`}
                 >
-                  {p.name}
+                  {getPriceLabel(p.value)}
                 </Link>
               </li>
             ))}
@@ -107,14 +126,14 @@ export default function Sidebar() {
 
         {/* Rating */}
         <div>
-          <div className="font-bold my-[2px]">Customer Review</div>
+          <div className="font-bold my-[2px]">{t("Customer Review")}</div>
           <ul>
             <li>
               <Link
                 href={getFilterUrl({ rating: "all", params })}
                 className={`hover:text-primary ${rating === "all" ? "font-semibold" : ""}`}
               >
-                All
+                {t("All")}
               </Link>
             </li>
             <li>
@@ -124,7 +143,7 @@ export default function Sidebar() {
               >
                 <div className="flex items-center gap-1">
                   <Rating size={4} rating={4} />
-                  <span className="text-xs">& Up</span>
+                  <span className="text-xs">{t("& Up")}</span>
                 </div>
               </Link>
             </li>
@@ -134,26 +153,26 @@ export default function Sidebar() {
         {/* Tags */}
         <div>
           <div className="flex justify-between items-center font-bold my-[2px]">
-            Tags
+            {t("Tags")}
             {selectedTags.length > 0 && (
               <Link
                 href={getFilterUrl({ params, tags: "all" })}
                 className="text-xs text-primary hover:underline"
               >
-                Clear All
+                {t("Clear All")}
               </Link>
             )}
           </div>
           <ul className="space-y-1">
-            {tagsList.map((t) => {
-              const slug = toSlug(t);
+            {tagsList.map((tname) => {
+              const slug = toSlug(tname);
               const isChecked = selectedTags.includes(slug);
               return (
-                <li key={t}>
+                <li key={tname}>
                   <Link
                     href={getFilterUrl({
                       params,
-                      tags: toggleTag(selectedTags, t),
+                      tags: toggleTag(selectedTags, tname),
                     })}
                     className="group flex items-center gap-2 hover:text-primary"
                   >
@@ -164,7 +183,7 @@ export default function Sidebar() {
                       className="size-4 accent-primary rounded-md group-hover:border-primary transition"
                     />
                     <span className={`${isChecked ? "font-semibold" : ""}`}>
-                      {t}
+                      {t(tname)}
                     </span>
                   </Link>
                 </li>

@@ -2,25 +2,25 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import ProductSortSelector from "@/components/shared/product/product-sort-selector";
 import Sidebar from "./siderbar";
 import ProductCard from "@/components/shared/product/product-card";
 import Pagination from "@/components/shared/pagination";
-import {
-  searchProducts,
-} from "@/lib/actions/product.actions";
+import { searchProducts } from "@/lib/actions/product.actions";
 import { IProduct } from "@/lib/db/models/product.model";
 
 const sortOrders = [
-  { value: "price-low-to-high", name: "Price: Low to high" },
-  { value: "price-high-to-low", name: "Price: High to low" },
-  { value: "newest-arrivals", name: "Newest arrivals" },
-  { value: "avg-customer-review", name: "Avg. customer review" },
-  { value: "best-selling", name: "Best selling" },
+  { value: "price-low-to-high", nameKey: "Price: Low to high" },
+  { value: "price-high-to-low", nameKey: "Price: High to low" },
+  { value: "newest-arrivals", nameKey: "Newest arrivals" },
+  { value: "avg-customer-review", nameKey: "Avg customer review" },
+  { value: "best-selling", nameKey: "Best selling" },
 ];
 
 export default function SearchPageClient() {
+  const t = useTranslations("Search");
   const searchParams = useSearchParams();
   const [productsData, setProductsData] = useState<{
     products: IProduct[];
@@ -54,11 +54,10 @@ export default function SearchPageClient() {
 
   const filters: string[] = [];
   if (q !== "all" && q !== "") filters.push(`${q}`);
-  if (category !== "all" && category !== "")
-    filters.push(`Category: ${category}`);
-  if (selectedTags.length > 0) filters.push(`Tags: ${selectedTags.join(", ")}`);
-  if (price !== "all") filters.push(`Price: ${price}`);
-  if (rating !== "all") filters.push(`Rating: ${rating} & up`);
+  if (category !== "all" && category !== "") filters.push(`${t("Category")}: ${category}`);
+  if (selectedTags.length > 0) filters.push(`${t("Tag")}: ${selectedTags.join(", ")}`);
+  if (price !== "all") filters.push(`${t("Price")}: ${price}`);
+  if (rating !== "all") filters.push(`${t("Rating")}: ${rating} ${t("& Up")}`);
 
   useEffect(() => {
     function fetchProducts() {
@@ -85,12 +84,11 @@ export default function SearchPageClient() {
       <div className="pb-4 md:border-b flex-between flex-col md:flex-row">
         <div className="flex items-center flex-wrap font-semibold gap-1 text-sm text-foreground">
           {productsData.totalProducts === 0
-            ? "No"
-            : `${productsData.from}-${productsData.to} of ${productsData.totalProducts}`}{" "}
-          results
+            ? t("No products found")
+            : `${productsData.from}-${productsData.to} ${t("of")} ${productsData.totalProducts}`} {t("results")}
           {filters.length > 0 && (
             <>
-              {" for "}
+              {` ${t("for")} `}
               <span className="font-bold text-primary">
                 &quot;{filters.join(", ")}&quot;
               </span>
@@ -99,7 +97,10 @@ export default function SearchPageClient() {
         </div>
 
         <ProductSortSelector
-          sortOrders={sortOrders}
+          sortOrders={sortOrders.map((order) => ({
+            ...order,
+            name: t(order.nameKey),
+          }))}
           sort={sort}
           params={params}
         />
@@ -129,7 +130,7 @@ export default function SearchPageClient() {
           >
             {productsData.products.length === 0 ? (
               <div className="col-span-full flex flex-col py-1 text-muted-foreground">
-                <p>No products found</p>
+                <p>{t("No products found")}</p>
               </div>
             ) : (
               productsData.products.map((product) => (

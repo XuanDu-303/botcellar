@@ -39,7 +39,7 @@ export default function Search({ categories, siteName }: Props) {
   const debounceRef = useRef<NodeJS.Timeout | null>(null)
 
   const router = useRouter()
-  const t = useTranslations('Header')
+  const t = useTranslations()
   const locale = useLocale()
   const direction = getDirection(locale)
 
@@ -89,13 +89,13 @@ export default function Search({ categories, siteName }: Props) {
             ${direction === 'rtl' ? 'rtl:rounded-r-md rtl:rounded-l-none' : ''}
           `}
         >
-          <SelectValue placeholder={t('All')} />
+          <SelectValue placeholder={t('Header.All')} />
         </SelectTrigger>
         <SelectContent position="popper" className="bg-popover text-foreground border border-border shadow-md">
-          <SelectItem value="all">{t('All')}</SelectItem>
+          <SelectItem value="all">{t('Header.All')}</SelectItem>
           {categories.map((category) => (
             <SelectItem key={category} value={category}>
-              {category}
+              {t('SidebarSearch.' + category)}
             </SelectItem>
           ))}
         </SelectContent>
@@ -110,7 +110,7 @@ export default function Search({ categories, siteName }: Props) {
           onChange={handleChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setTimeout(() => setIsFocused(false), 150)}
-          placeholder={t('Search Site', { name: siteName })}
+          placeholder={t('Header.Search Site', { name: siteName })}
           autoComplete="off"
           className="w-full min-h-[38px] bg-muted text-foreground text-base rounded-none border border-x-0 border-muted-foreground focus:!outline-none focus:!ring-0 focus:border-x-transparent group-focus-within:!border-y-primary shadow-none appearance-none"
         />
