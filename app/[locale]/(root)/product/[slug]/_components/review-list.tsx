@@ -158,8 +158,9 @@ export default function ReviewList({
   };
   return (
     <div className="space-y-2">
-      <div className="flex gap-8">
-        <div className="flex w-3/9 flex-col gap-2">
+      <div className="flex gap-8 md:flex-row flex-col">
+
+        <div className="flex sm:w-3/9 flex-col gap-2">
           <div className="pr-5">
             {loadingReviews ? (
               <RatingSummarySkeleton />
@@ -189,7 +190,7 @@ export default function ReviewList({
                   variant="outline"
                   className="cursor-pointer rounded-full w-full"
                 >
-                 {t('Write a customer review')}
+                  {t('Write a customer review')}
                 </Button>
 
                 <DialogContent className="sm:max-w-[425px]">

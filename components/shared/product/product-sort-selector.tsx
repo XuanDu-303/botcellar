@@ -39,7 +39,7 @@ export default function ProductSortSelector({
     >
       <SelectTrigger>
         <SelectValue className="text-sm">
-          {t('Sort by')}: {sortOrders.find((s) => s.value === sort)?.name || ''}
+          {t('Sort By')}: {sortOrders.find((s) => s.value === sort)?.name || ''}
         </SelectValue>
       </SelectTrigger>
 

@@ -5,12 +5,12 @@ import {
   getProductsForCard,
 } from '@/lib/actions/product.actions'
 import { toSlug } from '@/lib/utils'
-import HomeCard from './_components/home-card';
 import HomeCarousel from './_components/home-carousel';
 import ProductSlider from '@/components/shared/product/product-slider';
 import BrowsingHistoryList from '@/components/shared/browsing-history-list';
 import { getSetting } from '@/lib/actions/setting.actions'
 import { getTranslations } from 'next-intl/server'
+import HomeCard from './_components/home-card';
 
 
 export default async function HomePage() {
@@ -66,10 +66,10 @@ export default async function HomePage() {
 
   return (
     <>
-      <div className="relative">
-        <HomeCarousel items={carousels} />
+      <div className="relative bg-border">
+          <HomeCarousel items={carousels} />
 
-        <div className="absolute inset-x-0 bottom-5 translate-y-1/2 z-10">
+        <div className="z-10">
           <div className="md:px-4 md:space-y-4">
             <HomeCard cards={cards} />
           </div>
@@ -77,7 +77,7 @@ export default async function HomePage() {
       </div>
 
       <div className="md:p-4 md:space-y-4 bg-border">
-        <Card className="w-full mt-52 rounded-none">
+        <Card className="w-full rounded-none">
           <CardContent className="p-4 items-center gap-3">
             <ProductSlider title={t("Today's Deals")} products={todaysDeals} />
           </CardContent>

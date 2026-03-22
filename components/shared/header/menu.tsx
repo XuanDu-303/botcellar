@@ -1,22 +1,21 @@
-import CartButton from './cart-button'
-import UserButton from './user-button'
-import ThemeSwitcher from './theme-switcher'
-import LanguageSwitcher from './language-switcher'
+import CartButton from "./cart-button";
+import UserButton from "./user-button";
+import ThemeSwitcher from "./theme-switcher";
+import LanguageSwitcher from "./language-switcher";
 
-import { EllipsisVertical } from 'lucide-react'
+import { EllipsisVertical } from "lucide-react";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet'
+} from "@/components/ui/sheet";
 
-import { useTranslations } from 'next-intl'
+import { useTranslations } from "next-intl";
 
 const Menu = ({ forAdmin = false }: { forAdmin?: boolean }) => {
-  const t = useTranslations('Header')
+  const t = useTranslations("Header");
 
   return (
     <div className="flex justify-end">
@@ -34,22 +33,25 @@ const Menu = ({ forAdmin = false }: { forAdmin?: boolean }) => {
           <SheetTrigger className="align-middle header-button">
             <EllipsisVertical className="h-6 w-6" />
           </SheetTrigger>
-          <SheetContent className="bg-black text-white items-start space-y-3">
-            <SheetHeader className="w-full">
-              <div className="flex items-center justify-between w-full">
-                <SheetTitle>{t('Site Menu')}</SheetTitle>
-                <SheetDescription />
-              </div>
+          <SheetContent className="bg-popover text-popover-foreground w-1/2 items-start p-2">
+            <SheetHeader className="flex items-start justify-between w-full border">
+                <SheetTitle>{t("Site Menu")}</SheetTitle>
             </SheetHeader>
-            <ThemeSwitcher />
-            <LanguageSwitcher />
-            <UserButton />
-            {!forAdmin && <CartButton />}
+            <hr className="border-border border-[1.5px] w-full m-0 rounded-2xl" />
+            <div className="px-2 flex flex-col items-end gap-4 w-full">
+              <ThemeSwitcher />
+              <hr className="border-border w-full rounded-2xl" />
+              <LanguageSwitcher />
+              <hr className="border-border w-full rounded-2xl" />
+              <UserButton />
+              <hr className="border-border w-full rounded-2xl" />
+              {!forAdmin && <CartButton />}
+            </div>
           </SheetContent>
         </Sheet>
       </nav>
     </div>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;

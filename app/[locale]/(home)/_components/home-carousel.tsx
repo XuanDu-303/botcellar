@@ -62,12 +62,12 @@ export default function HomeCarousel({
       </CarouselContent>
       <CarouselPrevious
         variant={null}
-        className="absolute left-0 md:left-3 top-1/4 text-black -translate-y-1/2 h-1/3 w-20 border-2 border-gray-200/50 hover:border-ring/70 cursor-pointer rounded-xl"
+        className="absolute left-1 md:left-3 top-2/4 text-black -translate-y-1/2 h-1/3 w-20 border-2 border-gray-200/50 hover:border-ring/70 cursor-pointer rounded-xl"
         iconSize={8}
       />
       <CarouselNext
         variant={null}
-        className="absolute right-0 md:right-3 top-1/4 text-black -translate-y-1/2 h-1/3 w-20 border-2 border-gray-200/50 hover:border-ring/70 cursor-pointer rounded-xl"
+        className="absolute right-1 md:right-3 top-2/4 text-black -translate-y-1/2 h-1/3 w-20 border-2 border-gray-200/50 hover:border-ring/70 cursor-pointer rounded-xl"
         iconSize={8}
       />
     </Carousel>

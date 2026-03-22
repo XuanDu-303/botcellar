@@ -50,6 +50,7 @@ Dockerfile
 
 # VSCode
 .vscode/
+*.stackdump
 
 # Git
 .git/

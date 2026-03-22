@@ -63,7 +63,7 @@ export default async function ProductDetails(props: {
             <ProductGallery images={product.images} />
           </div>
 
-          <div className="flex w-full flex-col gap-2 md:p-5 col-span-2">
+          <div className="flex w-full flex-col gap-2 md:p-4 py-2 col-span-2">
             <div className="flex flex-col gap-3">
               <h1 className="font-bold text-lg lg:text-xl">{product.name}</h1>
               <div className="flex items-center gap-2">
@@ -105,7 +105,7 @@ export default async function ProductDetails(props: {
               </p>
             </div>
           </div>
-          <div>
+          <div className="md:my-0 my-2">
             <Card>
               <CardContent className="p-4 flex flex-col  gap-4">
                 <ProductPrice price={product.price} />

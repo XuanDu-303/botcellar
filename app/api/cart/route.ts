@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// app/api/cart/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { getCart, setCart } from '@/lib/actions/cart.actions'
 

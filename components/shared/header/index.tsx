@@ -54,17 +54,17 @@ export default async function Header() {
       </div>
 
       {/* Category and Menus */}
-      <div className="flex px-3 bg-gray-800 border-y border-gray-800">
+      <div className="flex md:px-3 bg-gray-800 border-y border-gray-800">
         {/* Sidebar categories */}
         <Sidebar categories={categories} session={session} />
 
         {/* Header menu links */}
-        <div className="flex items-center text-sm flex-wrap gap-3 overflow-hidden">
+        <div className="flex items-center text-sm text-[14px] flex-wrap gap-1 md:gap-3 !py-[10px] md:!py-0 overflow-hidden">
           {data.headerMenus.map((menu) => (
             <Link
               href={menu.href}
               key={menu.href}
-              className="header-button !py-[10px]"
+              className="header-button md:!py-[10px] !py-0"
             >
               {t('Header.' + menu.name)}
             </Link>

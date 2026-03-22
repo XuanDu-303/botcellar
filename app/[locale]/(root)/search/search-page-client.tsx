@@ -83,7 +83,7 @@ export default function SearchPageClient() {
     <div>
       {/* Header */}
       <div className="pb-4 md:border-b flex-between flex-col md:flex-row">
-        <div className="flex items-center flex-wrap font-semibold gap-1 text-sm text-foreground">
+        <div className="flex items-center flex-wrap font-semibold md:mb-0 mb-2 gap-1 text-sm text-foreground">
           {productsData.totalProducts === 0
             ? t("No products found")
             : `${productsData.from}-${productsData.to} ${t("of")} ${productsData.totalProducts}`} {t("results")}

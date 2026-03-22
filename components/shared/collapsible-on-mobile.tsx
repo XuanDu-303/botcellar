@@ -9,6 +9,7 @@ import {
 } from '../ui/collapsible'
 import useDeviceType from '@/hooks/use-device-type'
 import { Button } from '../ui/button'
+import { ChevronDown } from 'lucide-react';
 
 export default function CollapsibleOnMobile({
   title,
@@ -35,7 +36,7 @@ export default function CollapsibleOnMobile({
             variant={'outline'}
             className='w-full'
           >
-            {title}
+            {title} <ChevronDown className="text-foreground"/>
           </Button>
         )}
       </CollapsibleTrigger>

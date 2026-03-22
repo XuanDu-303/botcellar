@@ -28,11 +28,14 @@ export default function Sidebar({
   const locale = useLocale()
   const t = useTranslations("Header")
   const [open, setOpen] = useState(false);
+
   return (
     <Drawer direction={getDirection(locale) === 'rtl' ? 'right' : 'left'} open={open} onOpenChange={setOpen}>
-      <DrawerTrigger className="header-button flex items-center !p-2">
-        <MenuIcon className="h-5 w-5 mr-1" />
-        {t('All')}
+      <DrawerTrigger className="header-button flex items-start md:items-center !p-2">
+        <div className="flex items-center">
+          <MenuIcon className="h-5 w-5 mr-1" />
+          {t('All')}
+        </div>
       </DrawerTrigger>
       <DrawerContent className="!max-w-[364px] mt-0 top-0">
         <div className="flex flex-col h-full">
@@ -95,7 +98,7 @@ export default function Sidebar({
             </div>
             <DrawerClose asChild>
               <Link href="/account" className="item-button !px-6">
-                 {t('Your account')}
+                  {t('Your account')}
               </Link>
             </DrawerClose>{" "}
             <DrawerClose asChild>
